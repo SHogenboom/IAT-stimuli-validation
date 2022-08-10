@@ -1,0 +1,9 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+/main_cache/
+/main_files/
+
+/datasets/processed/
+/datasets/original/*.sav

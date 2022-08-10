@@ -1,0 +1,37 @@
+---
+editor_options: 
+  chunk_output_type: console
+---
+<!--
+################################################################################
+################################################################################
+### LISCENSE:                                                                ###
+### This code is available under a CC BY-NC-SA 4.0 license                   ###
+### https://creativecommons.org/licenses/by-nc-sa/4.0/                       ###
+###                                                                          ###
+### BY  – Credit must be given to the creator                                ###
+### NC  – Only noncommercial uses of the work are permitted                  ###
+### SA  – Adaptations must be shared under the same terms                    ###
+################################################################################
+################################################################################
+-->
+
+Implicit measures of attitudes, among which the IAT, aim to surpass the social desirability bias often associated with self-report measures [@GREENWALD1998; @FAZIO1995]. The social desirability bias is the participants' tendency to provide responses that are socially acceptable rather than a reflection of their true attitudes [Maccoby & Maccoby, 1954 in @FISHER1993]. Implicit measures surpass this bias [^opposing_views] by measuring attitudes indirectly, thereby revealing biases that were less pronounced or non-existent when measured with explicit/direct self-report questionnaires [@GREENWALD1998; @FAZIO1995; @HOFMANN2005]. The IAT, for example, measures bias indirectly by comparing response times across a 7-block categorization task [@GREENWALD1998; @GREENWALD2003]. Because implicit measures surpass social desirability biases they are used most often in contexts where such biases are likely to occur. Examples include measuring sexual attraction to children [@BABCHISHIN2013], racial biases towards Asian-Americans after terming COVID-19 the "China Virus" [@DARLING-HAMMOND2020], or measuring an individuals' suicidal thoughts [@TELLO2019].
+
+<!-- footnote -->
+[^opposing_views]: Among others, @HOFMANN2005 and @GAWRONSKI2009 provide mixed evidence accounts of implicit measures effectively reducing social desirability biases.
+
+The IAT measures the association strength (i.e., bias) between target-categories and attitude- or stereotype-categories. The target-categories [e.g., "Christian" vs. "Muslim", @HEIPHETZ2013] are paired with attitude-categories [e.g., "Pleasant" vs. "Unpleasant", @GREENWALD1998] to reveal differences in association strength between two sets of categories [e.g., Heterosexual-Positive & Gay-Negative, @STEFFENS2005]. Figure \@ref(fig:img-iat-paradigm) illustrates the procedure of the *Gender-Career IAT* (GC-IAT) which is aimed at understanding implicit attitudes towards traditional gender roles by measuring association strengths between the categories Career/Family (target-categories) and Male/Female (stereotype-categories). Each of the categories is represented by multiple exemplars (together called the stimuli) which provide information about the overarching category. For example, the category "Female" is represented by the exemplars "Rebecca", "Michelle", "Julia", "Emily", and "Anna". Critically, the association strength between the categories is inferred from the participants' responses to the exemplars, and not directly from the responses to the categories themselves.  
+
+The categories, pictured on two sides of the screen, correspond with designated response keys (e.g., "E" = left; "I" = right). Participants sort the exemplars into the correct categories by pressing the corresponding response key. For each trial, response time (RT) and accuracy (incorrect/correct) are recorded. Note that the IATs evaluated in this research include a built-in-error penalty; participants must change an incorrect answer before the response time is recorded. In Blocks 1, 2 and 5, participants assign the exemplars into two opposing categories: the target-categories (Career/Family) or the stereotype-categories (Male/Female). Blocks 3/4 and 6/7 are the so-called critical blocks: participants sort exemplars into four categories that are paired into two response options (left and right). The pairing of the categories on the left- or right-side of the screen determines whether a block is considered congruent or incongruent (i.e., compatible vs. incompatible). In the GC-IAT, the association between Career-Male (left) and Family-Female (right) is considered congruent because these pairings reflect the traditional gender roles, whereas pairings of Career-Female (left) and Family-Male (right) are considered incongruent (see Figure \@ref(fig:img-iat-paradigm). The (in)congruent pairing of categories in the blocks 3/4 vs. 6/7 are counter-balanced across participants to reduce the chances of order effects.
+
+For each participant, RTs are used to compute the participants bias score ($D_{IAT}$). The participants' bias score expresses the association strength between the four categories [@NOSEK2005]. In the case of the GC-IAT, a positive $D_{IAT}$ indicates that the participant responded faster when the categories were paired Career-Male and Family-Female than when the categories were paired Career-Female and Family-Male. Note that the IAT is a parallel association task; all four categories are presented at once. We thus cannot infer a difference in association strength between two categories (e.g., Career-Male vs. Career-Female), but only the difference between the four categories in different pairings [@BRENDL2001]. Central to our research is the fact that both the categories and exemplars exert an effect on $D_{IAT}$ [@GAST2010] and (in)appropriate stimuli selection directly effects the (direction of) the measured bias score.
+
+<!-- Image: visualization of the IAT paradigm -->
+```{r, label = img-iat-paradigm, fig.height = 8.45/2.45, fig.cap = "(ref:cap-iat-paradigm)", warning = FALSE}
+knitr::include_graphics(here::here("images",
+                                   "IAT-diagram.png"))
+```
+  
+<!-- Image Caption -->
+(ref:cap-iat-paradigm) Schematic overview of the Gender-Career Implicit Association Test (GC-IAT). The IAT consists of 7 blocks where participants sort the exemplar (black) into categories (green or blue) by pressing the correct response key. This visualization does not include instruction screens and response-key instructions (e.g., left = "E" & right = "I"). The number of trials (N) differs across blocks and IATs due to variations in the number of exemplars per category. Adapted from the GC-IAT on Project Implicit ([https://implicit.harvard.edu/implicit/Study?tid=-1](https://implicit.harvard.edu/implicit/Study?tid=-1)).

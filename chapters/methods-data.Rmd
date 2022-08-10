@@ -1,0 +1,294 @@
+---
+editor_options: 
+  chunk_output_type: console
+---
+<!--
+################################################################################
+################################################################################
+### LISCENSE:                                                                ###
+### This code is available under a CC BY-NC-SA 4.0 license                   ###
+### https://creativecommons.org/licenses/by-nc-sa/4.0/                       ###
+###                                                                          ###
+### BY  – Credit must be given to the creator                                ###
+### NC  – Only noncommercial uses of the work are permitted                  ###
+### SA  – Adaptations must be shared under the same terms                    ###
+################################################################################
+################################################################################
+-->
+
+For our analyses we will use data provided by Project Implicit[^data_availability]. Project Implicit is a large-scale data collection project which has collected IAT web responses since 2002 [@GREENWALD2003][^website_organization2]. Visitors to the website must agree to the terms and conditions before they have access to IATs about presidential preferences, body-weight attitudes, race and more.
+
+<!-- footnote -->
+[^data_availability]: Jordan Axt, the director of Data and Methodology for Project Implicit, has confirmed on the 16th of March 2021 that (1) we did not yet have access to the requested data, and (2) will receive the data after Stage 1 acceptance. The official statement is available via the Open Science Framework [https://osf.io/dw23y/?view_only=25b62f307a1349e7883549b473091483](https://osf.io/dw23y/?view_only=25b62f307a1349e7883549b473091483).
+
+<!-- footnotes to refer to the project implicit websites -->
+[^website_organization2]: Organization: [https://www.projectimplicit.net/](https://www.projectimplicit.net/); Take-a-Test:  [https://implicit.harvard.edu/implicit/takeatest.html](https://implicit.harvard.edu/implicit/takeatest.html)
+
+The data that Project Implicit provides comes in two forms: compressed and raw. The compressed data contains one row of information per participant and includes information on demographics (e.g., age, occupation), IAT results (e.g., $D_{IAT}$), and explicit associations (i.e., self-report questions). It is freely available via Project Implicits' Open Science Framework (OSF; [https://osf.io/y9hiq/](https://osf.io/y9hiq/)) for 16 IATs from 2002 until 2020[^n_iats]. The compressed data have primarily been used by researchers to determine group-level biases. For example, @CHARLESWORTH2019 performed trend analyses of biases from 2007 - 2016, @DARLING-HAMMOND2020 explored the effects of the Corona virus on Asian biases from 2007 - 2020, and @RAVARY2019 found that "fat-shaming" incidents predicted spikes in the biases detected with the body-weight IAT.
+
+<!-- footnote -->
+[^n_iats]: Determined at the time of writing ($27^{th}$ of September 2021)
+
+The raw data is available only upon request. It contains the trial-by-trial information such as IAT parameters (e.g., presented stimulus, category pairing) and response parameters (RT and accuracy). Researchers have used raw response data to, for example, validate new IAT formats [e.g., IAT-recoding free, @ROTHERMUND2009], determine the minimal number of exemplars [@NOSEK2005], and determine the effects of random stimulus variation [@WOLSIEFER2017]. The raw data and the compressed data can be linked via `session_id`; a unique identifier for each started IAT session. 
+
+### Pilot Data {#methods-data-pilot}
+
+```{r, load-pilot-raw}
+# LOAD DATA (Gender-Career IAT - Nov'-Dec' 2019)
+# Response times and accuracy per trial
+# See `datasets/data_structure_RAW.txt` for information about the content
+# ... of each of the columns. 
+pilot_raw <-
+    readr::read_delim(file = here::here("datasets",
+                                        "original",
+                                        "RAW_iat_NovDec2019.txt"),
+                     delim = "\t", # tab separated file
+                     trim_ws = TRUE, # remove extra white spaces from input
+                     progress = FALSE, # set to false for RMarkdown knitting
+                     skip_empty_rows = TRUE)  # prevent errors when empty rows occur
+
+# Apply preparations - see functions/prepare_data.R
+pilot_raw <- prepare_raw(raw_dat = pilot_raw)
+
+# Apply exclusions - see functions/apply_exclusion_criteria.R
+# Returns:
+# 1) a table with the effects of each exclusion criteria (for plotting)
+# 2) the cleaned data.frame
+pilot_raw_list <- exclusion_raw(raw_dat = pilot_raw)
+
+# Save the cleaned data for subsequent use
+pilot_raw_old <- pilot_raw # (data BEFORE exclusion, used for plotting of some exclusion clarification)
+pilot_raw <- pilot_raw_list$cleaned_dat # (data AFTER exclusion)
+
+# Save the exclusion criteria
+pilot_raw_exclusion <- pilot_raw_list$exclusion_data
+
+# Remove list to reduce memory
+rm(pilot_raw_list)
+```
+
+```{r, load-pilot-compressed}
+# COMPRESSED DATA (Gender-Career IAT - 2019)
+# Downloaded from: https://osf.io/abxq7/#!
+# Dataset + Codebook (i.e., interpretation of columns) freely available there
+# Explicit, Demographics, IAT summary statistics
+# One row per participant
+pilot_compressed <-
+    # LOAD DATA (from SPSS file)
+    suppressWarnings(
+        foreign::read.spss(file = 
+                               here::here("datasets", 
+                                          "original",
+                                         "Gender-Career IAT.public.2019.sav"),
+                           to.data.frame = TRUE)) 
+
+# Apply preparations - see functions/prepare_data.R
+pilot_compressed <- prepare_compressed(compressed_dat = pilot_compressed)
+
+# Apply exclusions - see functions/apply_exclusion_criteria.R
+# Returns:
+# 1) a table with the effects of each exclusion criteria
+# 2) the cleaned data.frame
+pilot_compressed_list <-
+  exclusion_compressed(compressed_dat = pilot_compressed)
+
+# Save the cleaned data
+pilot_compressed_old <- pilot_compressed # (data BEFORE exclusion, used for plotting of some exclusion clarification)
+pilot_compressed <- pilot_compressed_list$cleaned_dat # (data AFTER exclusion)
+
+# Save the exclusion criteria
+pilot_compressed_exclusion <- pilot_compressed_list$exclusion_data
+
+# Remove list to reduce memory
+rm(pilot_compressed_list)
+```
+
+```{r, pilot-mutual-exclusion}
+# Remove participants vice versa
+pilot_raw <- pilot_raw[pilot_raw$session_id %in% pilot_compressed$session_id, ]
+pilot_compressed <- pilot_compressed[pilot_compressed$session_id %in% pilot_raw$session_id, ]
+```
+
+For the pilot analyses we worked with data from the *Gender-Career IAT* (GC-IAT). The compressed data of the GC-IAT was freely available via Project Implicit' OSF page ([https://osf.io/abxq7/](https://osf.io/abxq7/)). We received the raw response data from November and December 2019 from Project Implicit on the 3rd of September 2020.
+
+We preprocessed the *compressed* data by computing the participants' age at the time of testing, recoding session status to indicate completion, and removing all unnecessary columns (e.g., explicit attitudes). After these preprocessing steps and applying the exclusion criteria (see section \@ref(methods-exclusion-compressed)), the compressed pilot data consisted of `r nrow(pilot_compressed)` rows of data. Note that we treat `session_ids` as if they indicate individual participants. It is technically possible for participants to start multiple sessions per IAT, but the size of the data makes it unlikely that a single person contributed a significant number of sessions. We further discuss the issue of repeated measurement in the exclusion criteria (section \@ref(methods-exclusion)).
+
+We preprocessed the *raw* data by cleaning block- and trial names, determining whether each trial was (in)congruently paired, as well as filtering out data that accidentally belonged to other IATs. After these preparations and applying the exclusion criteria (see section \@ref(methods-exclusion-raw)), the raw pilot data consisted of `r nrow(pilot_raw)` rows of data (responses/trials). 
+
+### Full Data {#methods-data-full}
+
+```{r, load-compressed-2020-stage-1, eval = FALSE}
+# STAGE 1
+# We do not yet have access to the raw data. Consequently, we cannot yet
+# ... exclude participants vice versa.
+#
+# NOTE: To save ourselves long knitting procedures, we execute this code chunk
+# ... once and save the data to 'datasets/processed' as .csv files. The eval = FALSE
+# ... statement prevents the code from being executed when preparing the output
+# ... document.
+
+# Initialize
+full_sample_stats <- data.frame()
+full_exclusion_stats <- data.frame()
+
+# Find out which data sets were manually downloaded for 2020
+# SOURCE: https://osf.io/y9hiq/
+filenames_2020 <- list.files(path = here::here("datasets",
+                                               "original"),
+                             pattern = "*.2020.sav")
+
+# Loop over each IAT to process, exclude, and save the statistics
+for (f in filenames_2020) {
+  print(glue::glue("{which(filenames_2020 == f)}/{length(filenames_2020)}: {f} \n"))
+  
+  #### LOAD DATA ####
+  # Get compressed data from 2020 that was downloaded from the Project Implicit OSF pages
+  compressed_dat <- 
+    # Suppress warnings that are thrown by trying to read in spss files
+    suppressWarnings( 
+      # Files are originally in an .sav = SPSS format.
+      foreign::read.spss(file = here::here("datasets",
+                                           "original",
+                                           f),
+                         # Output as data.frame
+                         to.data.frame = TRUE,
+                         # remove trailing white spaces
+                         trim_values = TRUE, 
+                         # prevent issues with duplicate factor names
+                         duplicated.value.labels = "condense")) %>%
+  # We only use the data from November, all other months can be removed
+    filter(month == "11")
+
+  #### PREPARE DATA ####
+  # Apply the custom created preperation function
+  # See `functions/prepare_data.R`
+  compressed_dat <- 
+    prepare_compressed(compressed_dat = compressed_dat) 
+  
+  #### EXCLUDE DATA ####
+  # Apply the exclusion criteria
+  # See `functions/apply_exclusion_criteria.R`
+  compressed_dat_list <-
+    exclusion_compressed(compressed_dat = compressed_dat)
+  # Store the excluded data
+  compressed_dat <- compressed_dat_list$cleaned_dat
+
+  #### SAVE DATA ####
+  # Save the prepared data for subsequent use in '/datasets/processed' as '.csv' files
+  
+  # Clean the file name for clarity
+  cleaned_name <- gsub(f,
+                       pattern = "_IAT| IAT|.2020.sav|.public|.IAT",
+                       replacement = "")
+  # Replace _ with normal - for naming consistency
+  cleaned_name <- gsub(cleaned_name,
+                       pattern = "_",
+                       replacement = "-",
+                       fixed = TRUE)
+  
+  # Save the prepared data & excluded data
+  write.csv(x = compressed_dat,
+            file = here::here("datasets",
+                              "processed",
+                              glue::glue("compressed_{cleaned_name}.csv")),
+            row.names = FALSE)
+  
+  #### SAVE STATISTICS ####
+  full_sample_stats <-
+    rbind(full_sample_stats,
+          data.frame("IAT" = cleaned_name,
+                     "N" = nrow(compressed_dat)))
+  
+  full_exclusion_stats <-
+    rbind(full_exclusion_stats,
+          cbind("IAT" = cleaned_name,
+                compressed_dat_list$exclusion_data))
+  
+} # END FILE LOOP
+
+# SAVE STATISTICS
+write.csv(full_sample_stats,
+          file = here::here("datasets",
+                            "processed",
+                            "compressed_2020_N_participants.csv"),
+          row.names = FALSE)
+
+write.csv(full_exclusion_stats,
+          file = here::here("datasets",
+                            "processed",
+                            "compressed_2020_exclusion_statistics.csv"),
+          row.names = FALSE)
+
+```
+
+```{r, load-sample-stats}
+# LOAD statistics that were generated in the chunk above
+full_sample_stats <- read.csv(file = here::here("datasets",
+                                                "processed",
+                                                "compressed_2020_N_participants.csv"),
+                              stringsAsFactors = FALSE)
+
+# Save for use in text
+mean_pp_per_IAT <- round(mean(full_sample_stats$N), 0) # round to whole participants
+sd_pp_per_IAT <- round(sd(full_sample_stats$N), 0) # round to whole participants
+# Find IAT with the most participants
+max_IAT <- full_sample_stats$IAT[full_sample_stats$N == max(full_sample_stats$N)]
+# Find IAT with the least participants
+min_IAT <- full_sample_stats$IAT[full_sample_stats$N == min(full_sample_stats$N)]
+```
+
+```{r, n-eligble-participants, eval = FALSE}
+# NOTE: NOT included in the manuscript
+# Serves as a quick check to see the number of included participants per IAT.
+# ... the min, max, mean, and sd are discussed in text.
+
+# Prepare data for plotting
+full_sample_stats <-
+  full_sample_stats %>%
+  # Arrange so that the number of participants increases
+  arrange(N) %>%
+  # Give a custom plotting position
+  mutate("posX" = 1:n()) %>%
+  # Add column for N when capped
+  mutate("capped_N" = ifelse(N <= n_cap,
+                             N,
+                             n_cap))
+
+# CREATE PLOT
+ggplot(data = full_sample_stats) +
+  # Visualize N Cap
+  geom_hline(yintercept = n_cap,
+             col = "red") + 
+  # Plot the number of participants as a bar
+  geom_bar(aes(x = posX,
+               y = N),
+           stat = "identity") +
+  # Plot the actual numbers above the bar
+  geom_text(aes(x = posX,
+                y = N,
+                label = format(N, big.mark = ",")),
+            vjust = -0.5,
+            hjust = 0.2,
+            angle = 45) +
+  # STYLING
+  theme_minimal() + 
+  # Change the numeric labels with the names of the IATs
+  scale_x_continuous(breaks = full_sample_stats$posX,
+                     labels = full_sample_stats$IAT,
+                     minor_breaks = FALSE) +
+  # Rotate the x-axis text for legibility
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  # Axis labels
+  labs(x = element_blank(),
+       y = "N Included Participants") +
+  # Change the labels of the y-axis to have big.mark , (1,000)
+  scale_y_continuous(labels = scales::comma,
+                     n.breaks = 10)
+```
+
+The full data we will utilize for this research comes from November 2020; the last full month for which data was available for all conventional IATs [^exclusion_covid_19]. We will analyze the data from `r length(included_IATs)` IATs: the `r glue::glue("{glue::glue_collapse(included_IATs, sep = '-IAT, ', last = '-IAT, and ')}-IAT")`. 
+
+The *compressed* data for the year 2020 is already publicly available for all IATs allowing us to apply the preprocessing steps mentioned above and estimate the number of eligible participants after applying the exclusion criteria (see section \@ref(methods-exclusion)). The `r max_IAT`-IAT has the most eligible participants (N = `r max(full_sample_stats$N)`) and the `r min_IAT`-IAT the least (N = `r min(full_sample_stats$N)`; $Mean$ = `r mean_pp_per_IAT`; $SD$ = `r sd_pp_per_IAT`). The *raw* data has not yet been attained and will only be shared by Project Implicit after Stage 1 acceptance. Consequently, the final number of participants included in our analyses may be slightly lower than reported as participants may still be excluded based on raw response patterns.
+
+<!-- footnote -->
+[^exclusion_covid_19]: In 2020 data was also collected for the *COVID-19* IAT. This IAT was not included because (a) the IAT was online for only a short amount of time, and (b) the IAT was included as part of a much more extensive research procedure. In addition, had we used the data from December 2020, all users from the *Asian-American* IAT would have been excluded due to missing demographic data. We thus opted to use the data from November 2020 instead.
