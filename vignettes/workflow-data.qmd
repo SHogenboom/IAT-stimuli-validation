@@ -1,0 +1,257 @@
+---
+title: "Workflow: Data"
+subtitle: "Retrieve, Prepare, & Exclude Raw/Compressed IAT Data"
+execute:
+  eval: true
+  cache: true
+format: 
+  html:
+    code-fold: true
+    code-block-bg: true
+    code-block-border-left: "#31BAE9"
+# see: https://quarto.org/docs/reference/dates.html#using-a-date-format
+date: today
+date-format: "Do of MMMM, YYYY" # 22nd of December, 2022
+title-block-banner: true
+editor_options: 
+  chunk_output_type: console
+---
+
+All research data is provided by [Project Implicit]() via the Open Science Framework: [https://osf.io/y9hiq/](https://osf.io/y9hiq/).
+
+In this document we describe step-by-step how to retrieve, clean, prepare, and in/exclude the relevant data. The actual code is available in `../functions/data_manipulations/...` - this is more a pseudo-code explanation to foster understanding without having to know `tidyverse` or `data.table` syntax.
+
+```{r setup, include = FALSE, eval = TRUE}
+# We use data.tables:
+# require(data.table)
+# We use the tidyverse (pipes, dplyr, readr)
+# require(tidyverse)
+```
+
+# Download Data
+:::{.callout-important}
+#### Warning: Large Files
+The data files of popular IATs (e.g., *Race-IAT*) are extremely large. It will therefore take some time to download the relevant `.zip` files.
+:::
+
+1. SKIP: if both datasets already exist
+1. GET: OSF Urls (see `datasets/OSF-urls.csv` - see structure below)
+1. CHECK: OSF Urls for `IAT` (e.g., "Age-IAT") and `year_of_interest` (e.g., 2020)
+1. DOWNLOAD: `Compressed` > `Compressed_{year_of_interest}.zip`
+1. DOWNLOAD: `Raw` > `Raw_{year_of_interest}.zip`
+
+#### Requirements
+`datasets` > `OSF-urls.csv`: an overview of the urls where the data can be found on the Open Science Framework (OSF).
+
+*Columns*
+
+* `IAT`: shortname for the relevant IAT. Should correspond to the values used in `included_IATs` (e.g., "Native-American").
+* `Compressed`: Project Implicit > Relevant IAT > Datasets & Codebooks > OSF Storage > zip with `CSV` of the year_of_interest > copy URL
+* `Raw`: Project Implicit > Relevant IAT > Raw Data > OSF Storage (if possible; Race-IAT only has Amazon storage) > zip with `.txt` of the year_of_interest > copy URL.
+* `Year`: Year of Interest > used for filtering.
+* `Notes`: Any irregularities that stand out.
+
+#### Code
+**Example**
+```{r retrieve-data, eval = FALSE}
+# DOWNLOAD: Compressed and Raw data from OSF
+# NOTE: we retrieve data based on URLs stored in `datasets/OSF/OSF-urls.csv`.
+# The urls are added manually - which is why they only contain those for 2019 (pilot) and 2020 (all IATs).
+retrieve_IAT_data(
+  IAT_name,
+  year_of_interest,
+  # Folder where the IAT data is stored (subfolder per IAT)
+  output_path = here::here(
+    "datasets",
+    "OSF"
+  )
+)
+```
+
+```{r show-retrieve-data-code, eval = TRUE}
+#| file: ../functions/data_manipulations/retrieve_data.R
+#| code-summary: "View: `../functions/data_manipulations/retrieve_data.R`"
+```
+
+#### Output
+
+SAVE in `datasets` > `OSF` > `IAT_NAME`:
+
+  * `Compressed_{year_of_interest}.zip`
+  * `Raw_{year_of_interest}.zip`
+
+#### Changes
+
+*TLDR;* all data files are now downloaded from Project Implicit's [Open Science Framework](https://osf.io/y9hiq/). This increases reproducibility compared to the earlier manual procedure of searching and downloading.
+
+**Stage 1**
+
+* Only the `Compressed` data was available for download via the OSF repository.
+* We manually downloaded all relevant files (.sav).
+* The `Raw` data was received via an email request to Project Implicit and downloaded to local storage.
+
+**Stage 2**
+
+* Both the `Compressed` and `Raw` data are available via the OSF.
+* We now use the `.csv` version of the `Compressed` data.
+* We do not know prior to processing which files include the `months_of_interest` - so all of them are processed
+* We learned about the `osfr` package which provides a scripted alternative to downloading files from OSF to local storage.
+
+# Prepare Data
+
+#### Compressed
+
+1. UNZIP: the contents from the downloaded `.zip` (from `retrieve_data.R`) into a temporary data folder.
+1. LOAD: data into R memory with `data.table::fread()`
+1. FILTER: the sessions which were logged in the `months_of_interest`
+1. REFACTOR: `session_status` to `Incomplete`/`Complete`
+1. RENAME: `num_002/num002/num` to `n_previous_iats` 
+1. SET: `test_date` as the date on which the session was logged.
+1. COMPUTE: `age` from `birth_date` (`01-{month}-{year}`) and `test_date`
+1. CLEAN: remove spaces from nationality columns
+1. REDUCE: remove unnecessary columns (e.g., answers to explicit attitude questions).
+1. UNITE: columns from IATs with multiple versions
+1. SAVE: prepared csv
+
+**Example**
+
+```{r prepare-compressed, eval = FALSE}
+prepare_compressed(data_path,
+                   year_of_interest = 2019,
+                   months_of_interest = c(11, 12))
+```
+
+```{r show-prepare-compressed, eval = TRUE}
+#| file: ../functions/data_manipulations/prepare_data_compressed.R
+#| code-summary: "View: `../functions/data_manipulations/prepare_data_compressed.R`"
+
+```
+
+#### Raw
+
+1. LOAD: prepared_compressed data
+1. EXTRACT: unique `session_id` (from Compressed) as a proxy for `months_of_interest`
+1. UNZIP: raw data into temporary local storage
+1. LAPPLY: data loading and processing functions per `.txt` file
+    1. LOAD: data into R memory with `data.table::fread()`
+    1. FILTER: `session_id`
+    1. RESTRUCTURE: `session_id`; `trial_number` (for ease of interpretation)
+    1. CLEAN: `block_name` and `trial_name` (for ease of interpretation)
+    1. CLEAN: remove instruction trials
+    1. CREATE: category-exemplar combination variable
+1. DETERMINE: `primary_task_name` - ie. the IAT for which the only data should be included.
+1. REMOVE: non-`primary_task_name` trials
+1. LOAD: `datasets/IAT_trial_congruency.csv`
+1. DETERMINE: `trial_congruency` - ie. whether the trials are in the expected direction of category pairs.
+1. SAVE: prepared csv
+  
+**Example**
+
+```{r prepare-raw, eval = FALSE}
+prepare_raw(data_path,
+            year_of_interest = 2019)
+```
+
+```{r show-prepare-raw, eval = TRUE}
+#| file: ../functions/data_manipulations/prepare_data_raw.R
+#| code-summary: "View: `../functions/data_manipulations/prepare_data_raw.R`"
+```
+
+#### Output
+
+SAVE in `datasets` > `OSF` > `IAT_NAME`:
+
+  * `Compressed_{year_of_interest}_prepared.csv`
+  * `Raw_{year_of_interest}_prepared.csv`
+
+#### Changes
+
+*TLDR;* We changed from `tidyverse` approach with `readr::read_csv()` to a `data.table` approach with `data.table::fread()`.
+
+**Stage 1**
+
+* `tidyverse` approach
+* *NOTE*: upon closer inspection we failed to filter the *Compressed* data by `monhts_of_interest`. This has caused a skew in the number of in-/excluded participants as shown in the exclusion plot. The results have **not** been altered as the participants were excluded vice versa from the *Raw* data which only included sessions from November and December 2019.
+
+**Stage 2**
+
+* `data.table` approach for faster loading (`data.table::fread()`) & reduced RAM requirement of large data sets (e.g, Race-IAT).
+* `tidyverse` approach for operations where processing times are approximately equal (e.g., `unite` and `select` columns).
+* saving data as `.csv` rather than `.RData` with `data.table::fwrite()` 
+
+# Apply Exclusion Criteria
+
+#### Compressed
+
+1. CHECK: if excluded data already exists
+1. LOAD: prepared data
+1. DETERMINE: IAT Completion
+1. DETERMINE: Missing D-score
+1. DETERMINE: Inattentive Error Rates (`pct_300`)
+1. DETERMINE: Nationality (only "U.S.A" / code 1)
+1. DETERMINE: Age (18 - 26)
+1. DETERMINE: Total (over all criteria)
+1. EXCLUDE: participants which meet one or more exclusion criteria
+1. SAVE: exclusion data and statistics
+
+**Example**
+
+```{r exclude-compressed, eval = FALSE}
+exclusion_compressed(data_path,
+                     year_of_interest = 2019)
+```
+
+```{r show-exclude-compressed, eval = TRUE}
+#| file: ../functions/data_manipulations/exclude_compressed.R
+#| code-summary: "View: `../functions/data_manipulations/exclude_compressed.R`"
+```
+
+#### Raw
+
+1. CHECK: if excluded data already exists
+1. LOAD: prepared raw data
+1. DELETE: trials from excluded participants
+1. DETERMINE: `trial_latency` < 1 or > 10,000 ms
+1. DETERMINE: percentage of errors > 50
+1. DETERMINE: Total (over all criteria)
+1. EXCLUDE: participants which meet one or more exclusion criteria
+1. SAVE: exclusion data and statistics
+
+**Example**
+
+```{r exclude-raw, eval = FALSE}
+exclusion_raw(data_path,
+              year_of_interest = 2019)
+```
+
+```{r show-exclude-raw, eval = TRUE}
+#| file: ../functions/data_manipulations/exclude_raw.R
+#| code-summary: "View: `../functions/data_manipulations/exclude_raw.R`"
+```
+
+#### Output
+
+SAVE in `datasets` > `OSF` > `IAT_NAME`:
+
+  * `Compressed_{year_of_interest}_exclusion_stats.csv` [summary stats]
+  * `Compressed_{year_of_interest}_cleaned.csv` [usable data]
+  * `Raw_{year_of_interest}_exclusion_stats.csv` [summary stats]
+  * `Raw_{year_of_interest}_cleaned.csv` [usable data]
+  
+RETURN the number of included participants (`nrow(dat_compressed)`) and the number of included trials (`nrow(dat_raw)`).
+
+#### Changes
+
+*TLDR;* we again changed from a `tidyverse` approach to a `data.table` approach. This has made the code more comprehensive & speeds up the process of overall exclusion. In addition, we now delete trials from excluded participants (`Compressed`) prior to applying the exclusion criteria in the `Raw` data.
+
+**Stage 1**
+
+* A `tidyverse` approach
+* A lot of duplicated code (e.g,. saving exclusion criteria)
+* Returned the `cleaned` data and the `exclusion_stats` to the R environment
+
+**Stage 2**
+
+* A `data.table` approach speeds up the process of loading and processing data.
+* Save the cleaned data and exclusion statistics in local storage for future use. This also allows for a check to see whether perhaps these operations have already been executed - thus not needing to repeat them again.
+* Remove trials from excluded participants (`Compressed`) prior to applying the `Raw` exclusion criteria.

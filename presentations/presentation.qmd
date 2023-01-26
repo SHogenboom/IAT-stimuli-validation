@@ -1,0 +1,419 @@
+---
+title: "Implicit Association Tests"
+subtitle: "Stimuli Validation from Participant Responses"
+author: 
+  - Sally A.M. Hogenboom \newline
+  - Leendert van Maanen (UU) \newline
+  - Katrin Schulz (UvA)
+  
+format: 
+  beamer:
+    colortheme: beaver # set a color theme layout - colors modified below
+    fonttheme: structurebold # ensure titles are bolded
+    slide-level: 3 # not sure why, but three levels needed
+    toc: true # add table of contents
+    keep-tex: false
+    
+classoption: "aspectratio=169"
+
+# BEAMER SETTINGS
+header-includes: 
+    \DeclareOptionBeamer{compress}{\beamer@compresstrue} 
+    \useoutertheme[footline=authortitle,subsection=false]{miniframes} 
+    \useinnertheme[shadow=false]{rounded} 
+    \linespread{1.3}
+    \definecolor{beamer@uva-red}{RGB}{189,0,49}
+    \setbeamercolor{structure}{fg=beamer@uva-red}
+    \setbeamercolor{titlelike}{parent=structure}
+    \setbeamercolor{title}{fg=beamer@uva-red}
+    \setbeamercolor{frametitle}{fg=beamer@uva-red}
+    \setbeamercolor{author in head/foot}{fg=white}
+    \setbeamerfont{footnote}{size=\tiny}
+    \AtBeginSubsection{} # do not show subheader title slides
+
+date: today
+date-format: long
+---
+
+# Doelstellingen 
+
+1. Input voor de discussie van *preregistered report* ^[ Embargoed Registered Report, British Journal of Social Psychology, https://osf.io/hqe2r]
+
+1. A *note of caution* voor IAT onderzoek(ers)
+
+# Introductie
+
+## Er was eens...{.incremental}
+
+* De behoefte om *attitudes* te meten.
+* *Implicit Association Tests* (IAT) 
+  * 'The golden standard'
+  * 16 nieuwe artikelen per maand!
+  * Vermindering van de *social desirability bias*
+
+### 
+
+Hoe maak je een *goede* IAT over een *nieuw* onderwerp?
+
+## Handleidingen
+
+(1) *"The Implicit Association Test at age 20: What is known and what is not known about implicit bias"* - Greenwald et al., 2020 ^[https://psyarxiv.com/bf97c/] 
+
+(2) *Best research practices for using the Implicit Association Test* - Greenwald et al., 2021 ^[https://link.springer.com/article/10.3758/s13428-021-01624-3]
+
+### Tipje van de Sluier 
+
+> Exemplars that just one of a small group of pilot subjects finds difficult to classify [RT < 800 ms & Error < 10%] are safely discarded without further consideration \newline -  Greenwald et al., (2021)^[https://link.springer.com/article/10.3758/s13428-021-01624-3]
+
+###
+
+*In welke mate voldoen de huidige IAT stimuli aan deze criteria?*
+
+1. Greenwald et al., (2021) geven **geen** onderbouwing voor deze criteria
+2. De RT verdelingen van de Gender-Career IAT lieten in eerdere analyses grote verschillen zien.
+
+# Implicit Association Test
+
+## Design
+
+### Design
+
+2 x 2 Categoriën - met N exemplars per Categorie
+
+```{r, out.width= "70%", fig.align="center"}
+knitr::include_graphics(here::here("images",
+                                   "IAT-diagram.png"))
+```
+
+### Bias
+
+* $RT_{incongruent}$ vs. $RT_{congruent}$
+* D-score (i.e., verschilscore)
+* Inferentie op basis van Categorieën - maar classificatie van Exemplars. 
+
+## 
+
+Categorieën/Exemplars moeten dus met aandacht gekozen worden - maar waar gaat het 'fout'?
+
+### Het probleem {.incremental}
+
+Door stimulus- en particpant karakteristieken kunnen *cross-category associations* ontstaan: onverwachtte en/of meervoudige associaties
+
+### Voorbeeld 1: Stimulus Karakteristieken
+
+1. Gender-Career IAT (Men/Women/Career/Family)
+1. Gender-Criminality IAT (Men/Women/Criminal/Innocent)
+
+Category: *Male*
+
+Exemplar: *Jack*
+
+. . .
+
+*Cross-Category Associations:* 
+
+  * Gender-Career IAT: n.v.t.
+  * Gender-Criminality IAT: Jack the Ripper == Man & Crimineel
+
+### Voorbeeld 2: Participant Karakteristieken
+
+Garimella et al. (2017)^[Garimella, A., Banea, C., & Mihalcea, R. (2017). Demographic-aware word associations. Proceedings of the 2017 Conference on Empirical Methods in Natural Language Processing, 2285–2295. https://doi.org/10.18653/v1/D17-1242
+]
+
+1. Gender: Male / Female
+1. Country: U.S.A / India
+
+Stimulus: *Bath*
+
+. . .
+
+*Cross-Category Associations:* 
+
+* Male: U.S.A = *Water* // India = *Water*
+* Female: U.S.A = *Bubbles* // India = *Soap*
+
+### 
+
+Problematische *cross-category associations* kunnen dus ontstaan wanneer je de IAT-stimuli of proefpersoon populatie aanpast. Elke aanpassing zou dus moeten vragen om (her)nieuw(d)e stimulus validatie.
+
+### ... maar hoe?
+
+De criteria van Greenwald et al. (2021) zijn momenteel de enige expliciet geformuleerde criteria op *stimulus* niveau.
+
+## Onderzoek
+
+### Greenwald et al., (section A8, 2021)
+
+> A8. Exemplar stimuli for target and attribute categories are best selected by pilot testing using the category classification tasks planned for the IAT
+[...] ease of classification [..]. Subjects for __pilot testing__ should come from the __intended research subject population__. [...] The useful data will come from __Blocks 1 and 2__ of the standard procedure (see Appendix A). Pilot subjects should be able to categorize __all stimuli__ in these two blocks __rapidly__ (average latency in the range of 600– __800__ ms for most __young adult__ subjects) and with __low error__ rates ( __less than 10%__ ). Exemplars that just one of a small group of pilot subjects finds difficult to classify are safely discarded without further consideration. [...]. ^[https://link.springer.com/article/10.3758/s13428-021-01624-3]
+
+### Onderzoeksdoelen
+
+* Evaluatie van validatie criteria dat exemplars snel (RT < 800 ms) en accuraat (< 10% error) gecategoriseerd worden.
+
+**Geplande Analyses**
+
+1. Toepassing op 15 individuele IATs
+
+1. Exploreren van context gevoeligheid; validiteit van stimuli die in meerdere IATs gebruikt worden.
+
+1. Exploreren effect van stimulus type; verschilt validiteit voor images, nouns, adjectives, en names?
+
+# Methode
+
+## Data
+
+### Data
+
+* 15 IATs beschikbaar via Project Implicit ^[https://osf.io/y9hiq/]
+* Age; Arab; Asian; Disability; Gender-Career; Gender-Science; Native-American; President; Race; Religion; Sexuality; Skin; Transgender; Weapons; Weight
+
+### Data
+
+* *Compressed*: demographics, d-score, explicit attitudes etc.
+* *Raw*: trial-by-trial response data
+
+* Koppeling via `session_id` als zijnde een 'proefpersoon'
+
+### In-/Exclusie
+
+```{r, out.width = "70%", fig.align="center"}
+knitr::include_graphics(here::here("plots",
+                                   "exclusion_criteria",
+                                   "FULL_SAMPLE_2020.pdf"))
+```
+
+### N Geïncludeerde Proefpersonen
+
+```{r, out.height = "80%", fig.align='center'}
+n_pp <-
+  data.table::rbindlist(
+    lapply(X = list.files(here::here("datasets",
+                                    "OSF"),
+                          recursive = TRUE,
+                          pattern = "Compressed_2020_exclusion_stats.csv",
+                          full.names = TRUE),
+           FUN = function(file_path) {
+             data.table::fread(file_path)
+           })
+  ) |>
+  # Keep only the included statistics
+  dplyr::filter(Criteria == "Total",
+                Type == "Included") |>
+  # Order by N
+  dplyr::arrange(desc(N))
+
+n_pp$IAT <- factor(n_pp$IAT,
+                   levels = unique(n_pp$IAT)) 
+
+ggplot2::ggplot(data = n_pp,
+                ggplot2::aes(y = N,
+                             x = IAT,
+                             label = scales::comma(N),
+                             fill = IAT)) +
+  # Plot bars
+  ggplot2::geom_bar(stat = "identity") +
+  # Add text / N
+  ggplot2::geom_text(vjust = -0.2) +
+  ggplot2::labs(y = "N Included Participants",
+       x = ggplot2::element_blank(),
+       fill = ggplot2::element_blank(),
+       title = "N Included Participants") +
+  ggplot2::theme(legend.position = "none",
+                 axis.text.x = ggplot2::element_text(angle = 45, hjust = 1)) +
+  ggplot2::scale_y_continuous(labels = scales::comma) 
+
+```
+
+# Analyses & Resultaten
+
+## Bootstraps
+
+10,000 'experimenten' met 100 proefpersonen in elke sample.
+
+* *10,000* samples = arbitrair groot getal
+* *100* proefpersonen = een 'normale' sample size voor IAT experimenten (op basis van samplesizes in meta-analyses).
+
+### 1 Sample van 100 Proefpersonen
+
+```{r, out.height = "75%", fig.align="center"}
+# LOAD DATA
+dat_raw <-
+  data.table::fread(
+    here::here(
+      "datasets",
+      "OSF",
+      "Gender-Career",
+    "Raw_2019_cleaned.csv"))
+
+# SAMPLE 100 PARTICIPANTS
+session_ids <- 
+  sample(unique(dat_raw$session_id),
+         100)
+
+# GET SUBSET OF DATA
+sub_raw <-
+  dat_raw[dat_raw$session_id %in% session_ids, ] |>
+  # keep block 1.2
+  dplyr::filter(block_number %in% c(1, 2))
+
+ggplot2::ggplot(data = sub_raw,
+                ggplot2::aes(x = trial_latency,
+                             y = trial_name)) +
+  ggplot2::geom_jitter(width = 0.1) +
+  ggplot2::geom_point(stat = "summary",
+           fun = "mean",
+           col = "Red",
+           size = 2) +
+  ggplot2::labs(x = "trial_latency (RT)",
+       y = ggplot2::element_blank()) +
+  ggplot2::geom_vline(xintercept = 800,
+                      col = "Red",
+                      alpha = 0.5) 
+```
+
+### 10,000 Samples van 100 Proefpersonen
+
+```{r, out.height="75%", fig.align='center'}
+knitr::include_graphics(here::here("plots",
+                                   "IATs",
+                                   "pilot_gender_career.pdf"))
+```
+
+## Analyse 1: Alle 395 Stimuli in 15 IATs
+
+```{r, out.height="75%", fig.align='center'}
+knitr::include_graphics(here::here("plots",
+                                   "validity_estimates",
+                                   "All.pdf"))
+```
+
+## Analyse 2: Context Dependency
+
+### 
+
+* 64 Exemplars worden in 9/10 IATs gebruikt.
+* Positive/Negative/Bad/Good
+* Bijvoorbeeld: "Yucky", "Cheerful", "Smiling", "Grief"
+
+Hoge spreiding = context dependent: de validiteit van een stimulus is afhankelijk van de IAT / populatie waar de stimulus in voorkwam.
+
+### 
+
+```{r, out.height="90%", fig.align='center'}
+knitr::include_graphics(here::here("plots",
+                                   "context_dependency",
+                                   "context_dependency_TOTAL.pdf"))
+```
+
+```{r, out.height="90%", fig.align='center'}
+knitr::include_graphics(here::here("plots",
+                                   "context_dependency",
+                                   "context_dependency_ERROR.pdf"))
+```
+
+## Analyse 3: Stimulus Types
+
+###
+
+In welke mate is de validiteit verschillend voor stimulus types?
+
+```{r}
+knitr::kable(data.table::fread(here::here("datasets",
+                                   "POS_overview.csv")))
+```
+
+###
+
+$$percantage\_valid \sim 1 + stimulus\_type + (1 + stimulus\_type \mid IAT)$$
+
+* $(... \mid IAT)$: corrigeren voor de context van IATs
+
+* $(1 + stimulus\_type$: corrigeren voor stimulus type binnen IATs
+
+"Mixed-effects model with the `lme4` and `lmerTest` packages with a BOBYQA optimizer (Powell, 2009) and a maximum of 200,000 iterations (Miller, 2018).
+
+###
+
+Model convergeert niet vanwege issues met (near) singularity >>> simpeler model:
+
+$$percentage\_valid \sim 1 + stimulus\_type + (1 \mid IAT)$$
+
+### 
+
+```{r, out.height="90%", fig.align='center'}
+knitr::include_graphics(here::here("plots",
+                                   "MeM",
+                                   "Perc_validity_RT.pdf"))
+```
+
+# Discussie
+
+## Algemeen
+
+### Algemeen: Samenvatting
+
+```{r}
+source(here::here("functions",
+                  "get_all_validity_estimates.R"))
+
+# Combine all validity estimates into a single tibble
+validity_estimates <- 
+  get_all_validity_estimates(year_of_interest = 2020)
+
+n_stimuli <- length(unique(validity_estimates$trial_name))
+n_betrouwbaar <- sum(validity_estimates$Perc_validity_TOTAL > 95 | validity_estimates$Perc_validity_TOTAL < 5)
+```
+
+* Van de `r n_stimuli` voorkomend in 15 IATs ($N_{total}$ = `r nrow(validity_estimates)` kunnen we slechts `r n_betrouwbaar` keer betrouwbaar stimulus (in)validity concluderen (`r n_betrouwbaar / nrow(validity_estimates) * 100`%).
+
+* Van de `r nrow(validity_estimates)` validiteits checks zijn slechts `r sum(validity_estimates$Rel_validity_TOTAL == "valid")` betrouwbaar (> 95% vd 10,000 samples) valide (RT < 800ms **EN** < 10% ERROR).
+
+* Van de `r nrow(validity_estimates)` validiteits checks zijn `r sum(validity_estimates$Rel_validity_TOTAL == "invalid")` betrouwbaar (> 95% vd 10,000 samples) invalide.
+
+* Uit de algemene verdelingen blijkt telkens dat het `RT` criterium (RT < 800 ms) veel vaker tot een beoordeling van invaliditeit zorgt dan het `ERROR` criterium (< 10% errors).
+
+## Algemeen: Implicaties
+
+* Het RT/ERROR criterium is te strikt/tolerant
+  * Criteria herzien
+  * Wat is een 'impliciete reactietijd'?
+
+* De IATs hebben allen last van stimulus validiteit problemen 
+  * Hoe heeft 1 of meerdere invalide stimuli effect op de gevonden bias scores?
+  * Kun je bias scores herberekenen op basis van post-hoc validatie?
+
+## Context Dependency
+
+### Context Dependency: Samenvatting
+
+* Het grootste deel van de 64 herbruikte exemplars verschilt in validiteit gegeven de IAT waar deze in voorkwam (grote spreiding).
+
+* Sommige woorden (e.g., `Terrific`) zijn in alle IATs en voor beide criteria problematisch. Geen woorden zijn in alle IATs valide.
+
+* Wederom verschil in effect `RT` vs. `ERROR` criterium. 
+
+### Context Dependency: Implicaties
+
+* Spreiding in validiteit over IATs heen kan meerdere oorzaken hebben:
+  * Invloed van overige stimuli/categorieën (*cross-category associations*)
+  * Invloed van de populatie die een IAT afmaakt (e.g., Psychology 101 students in Race-IAT vs. Sexuality-IAT).
+  
+* Ongeacht de oorzaak: de validiteit van stimuli verschilt per IAT/populatie - dus stimulus (her)validatie is genoodzaakt.
+
+## Stimulus Types
+
+### Stimulus Types: Samenvatting/Implicaties
+
+* Under construction; er lijkt een verschil te zitten in de validiteit van verschillende stimulus types.
+
+* Implicaties; 
+  * Validatie criteria aanpassen op stimuli types
+  * Beperken tot 1 stimulus type per IAT? (nog te analyseren)
+  * Een bepaalde stimulus_type in zijn geheel links laten liggen?
+  * Culturele afhankelijkheid?
+  
+# Vragen & Opmerkingen
+
+Heel benieuwd naar jullie reacties, gedachtes, input voor de discussie!
+  

@@ -1,0 +1,6 @@
+stimulus_type,N,Examples,MeM
+Image,236,"tone0031a.jpg, nixon1.jpg, of3.jpg, recent15.jpg, jefferson2.jpg...",Included
+Adjective,69,"Horrible, Scorn, Disaster, Poison, Friendship...",Included
+Noun,57,"Boy, Judaism, Husband, Muslim, Humanities...",Included
+Name,29,"Jeffrey, Habib, Yousef, Hakim, Michelle...",Included
+Multi-Word,4,"Gay People, Gay Men, Gay Women, Straight People",Excluded

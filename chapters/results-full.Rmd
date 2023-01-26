@@ -1,0 +1,114 @@
+
+### Stimulus Validity
+
+```{r, results-texts}
+results_text_race <- results_text(IAT_name = "Race",
+                                   year_of_interest)
+
+results_text_overall <- results_text(IAT_name = "ALL",
+                                     year_of_interest)
+```
+
+In a direct replication of the pilot analyses we first determined stimulus validity within each of the `r length(included_IATs)` included IATs. The results of individual IATs are available in the [online Appendix](https://osf.io/dw23y/?view_only=25b62f307a1349e7883549b473091483). The pilot results of the Gender-Career IAT (2019) and the preregistered analyses (2020) were approximately equal. The conclusions of stimulus validity were identical, even though there were minor variations in the bootstrapped percentages of samples in which the stimulus was valid (see the [online Appendix](https://osf.io/dw23y/?view_only=25b62f307a1349e7883549b473091483)). Figure \@ref(fig:plot-perc-valid-distributions) depicts stimulus validity across all stimuli ($N_{unique}$ = `r nrow(IAT_stimuli)`) included in the `r length(included_IATs)` included IATs. For illustrative purposes we have also included the results from the most popular IAT: the Race-IAT (Figure \@ref(fig:results-plot-race)). `r results_text_race$participants_and_responses` `r results_text_race$age` 
+
+<center>
+
+```{r, plot-perc-valid-distributions, fig.cap = "(ref:cap-perc-valid-distributions)", include = TRUE, warning=FALSE, out.height="50%"}
+validity_estimates = get_all_validity_estimates(year_of_interest)
+
+plot_distributions_RT_ERROR_TOTAL(validity_estimates)
+
+knitr::include_graphics(
+  here::here("plots",
+             "validity_estimates",
+             "All.png")
+)
+```
+
+</center>
+
+(ref:cap-perc-valid-distributions) Distributions of the percentage valid (x-axis) of all stimuli (dots; $N_{total}$ = `r nrow(validity_estimates)`). The percentage valid represents the percentage of `r n_samples` samples of `r n_subjects_per_sample` participants in which a stimulus was valid based on the respective validation criteria. Each subplot from top-to-bottom shows the (1) global distribution, (2) mean and 95% Confidence Interval, (3) a standard boxplot without outliers, and (4) the raw data (individual stimuli). **[RT]** Stimuli were classed valid if the average response time of the participant sample was lower than 800 ms. **[ERROR]** Stimuli were classed valid if the error rate of the participant sample was lower than 10%. **[TOTAL]** Stimuli were valid if both the `RT` and `ERROR` criterion were valid, invalid if either criterion was invalid, and unreliable if either was unreliable.
+
+Across `r length(included_IATs)` IATs we determined stimulus validity for `r nrow(validity_estimates)` stimuli-IAT combinations ($N_{unique}$ = `r nrow(IAT_stimuli)`). `r results_text_overall$RT` `r results_text_overall$ERROR` `r results_text_overall$TOTAL` The validity estimates (`percentage_valid`) were used in two subsequent preregistered analyses.
+
+<center>
+
+```{r, results-plot-race, fig.cap = "(ref:results-cap-race)", include = TRUE, out.height = "10%", cache = FALSE}
+if (!file.exists(here::here("plots",
+                                   "IATs",
+                                   glue::glue("Race_{year_of_interest}.png"))
+  )) {
+    results_plot(IAT = "Race",
+             year_of_interest,
+             plotHeight = 50)
+  }
+
+knitr::include_graphics(here::here("plots",
+                                   "IATs",
+                                   glue::glue("Race_{year_of_interest}.png")))
+```
+
+</center>
+
+(ref:results-cap-race) The validity estimates per stimulus of the Race IAT (November, 2020). **[RT]** The distribution of *average response time* across `r n_samples` samples of `r n_subjects_per_sample` participants. Within each sample a stimulus (left y-axis) is judged as valid if the average response time is lower than 800 milliseconds (vertical blue line). A stimulus is classed as *reliably* valid (green) if 95% or more of the samples resulted in a valid judgment (right y-axis). Stimuli are considered reliably invalid (red) if a stimulus is classed as valid in 5% or less of the samples. Stimuli that were valid in 6% to 94% of the samples were classed as unreliable (black). **[ERROR]** The distribution of the *percentage of errors* across `r n_samples` samples of `r n_subjects_per_sample` participants. Within each sample a stimulus (left y-axis) is judged as valid if less than 10 percent of the trials were answered incorrectly (vertical blue line). **[TOTAL]** An overview of the validity judgments per exemplar based on average response times (RT) and percentage of errors (ERROR). A stimulus was classed as valid (TOTAL) if both criteria were reliably valid, but as invalid if either criterion was reliably invalid. If the criteria were both unreliable, a stimulus was also classed as unreliable.
+
+`r results_text_race$RT` `r results_text_race$ERROR` `r results_text_race$TOTAL` The pattern of stimulus (in)validity in the Race-IAT is consistent with that of the other IATs (see [online Appendix](https://osf.io/dw23y/?view_only=25b62f307a1349e7883549b473091483)). We consistently see a pattern where the overall stimulus validity (`TOTAL`) mimics the `RT` rather than the `ERROR` criterion. This is because a stimulus can only be considered valid if *both* criterion are met, whereas a stimulus is already invalid if *one* criterion concludes stimulus invalidity. As the `RT` criterion concludes more stimulus invalidity, the final verdict therefore closely resembles that of the `RT` criterion.
+
+The results from the Race-IATs illustrates another pattern which we consistently see across the `r length(included_IATs)` included IATs: between-sample variance. The width of the boxplots indicate that the average response time and error rate vary greatly between the `r n_samples` samples. As a consequence, most stimuli could not be reliably (in)validated, indicating that we were frequently less than 5% sure that a new sample of `r n_subjects_per_sample` US participants would yield the same (in)validity conclusion. 
+
+### Contextual Differences {#results-context-dependency}
+
+In the second analysis we explored whether stimulus (in)validity differed across IAT contexts. A total of `r nrow(multi_IAT_stimuli)` stimuli were used in `r n_different_iats` different IATs. Between-IAT variance in stimulus validity was used to infer contextual differences. Figure \@ref(fig:context-dependency) illustrates the differences in stimulus validity across IAT contexts.
+
+<center>
+
+```{r, context-dependency, fig.cap="(ref:cap-context-dependency)", out.height = "50%", include = TRUE}
+knitr::include_graphics(
+  here::here("plots",
+             "context_dependency",
+             "context_dependency_small.png")
+)
+```
+
+</center>
+
+(ref:cap-context-dependency) The percentage of samples in which a stimulus was valid for the `r n_different_iats` different IATs in which the stimulus occurred. The percentage valid represents the percentage of `r n_samples` samples of `r n_subjects_per_sample` participants in which a stimulus was valid based on the respective validation criteria. From top-to-bottom each plot shows (1) the 95% Confidence Interval of the Mean and (2) the raw data (individual IATs). This plot includes a subset of stimuli (every 4th stimulus) which showcases the general patterns while still keeping the plot legible. A full-sized zoomable plot is available in the [online Appendix](https://osf.io/dw23y/?view_only=25b62f307a1349e7883549b473091483).
+
+```{r}
+multi_IAT_validity_estimates <- 
+  validity_estimates |> 
+  dplyr::filter(trial_name %in% multi_IAT_stimuli$trial_name)
+
+context_dependency <-
+  multi_IAT_validity_estimates |>
+  dplyr::group_by(trial_name) |>
+  dplyr::summarize("lowest_RT" = IAT[which.min(Perc_validity_RT)],
+                "lowest_ERROR" = IAT[which.min(Perc_validity_ERROR)],
+                "lowest_TOTAL" = IAT[which.min(Perc_validity_TOTAL)],
+                "highest_RT" = IAT[which.max(Perc_validity_RT)],
+                "highest_ERROR" = IAT[which.max(Perc_validity_ERROR)],
+                "highest_TOTAL" = IAT[which.max(Perc_validity_TOTAL)])
+```
+
+Figure \@ref(fig:context-dependency) shows that stimulus validity varies between IATs. This is evident from the between-IAT variation displayed as 95% Confidence Intervals of the Mean. Only some items demonstrate context independence: the 95% CIs are extremely small. This context independence manifests on the extremes of the `percentage_valid` scales. Stimuli are either consistently invalid or consistently valid. 
+
+Contextual differences are however evident when stimulus validity could not be reliably estimated. Each stimulus in the unreliable region displays large between-IAT variability. Within those stimuli it is evident that some IATs (points) score considerably lower/higher than the other IATs on the percentage of samples in which the stimulus was valid. The under-performing IAT is generally speaking the Race-IAT when the `RT` criterion is concerned, but the Arab-IAT for the `ERROR` criterion. The over-performing IAT with respect to `RT` is most often the President-IAT, but with the `ERROR` criterion both the Race- and Transgender-IAT outperform compared to the other IATs.
+
+### Stimulus Types
+
+In the pilot analyses of the Gender-Career IAT (2019) we saw differences in validity between two stimulus types (nouns; names). The third analysis therefore explored the effect of stimulus type on stimulus validity. We fitted a mixed-effects model with random effects for IAT (controlling for contextual differences) and fixed effects stimulus types. We included the stimulus types "Images" (intercept), "Adjectives", "Nouns", and "Names" (proper nouns; see section \@ref(methods-analyses-types-validity)). The fixed effects and the uncontrolled raw data are depicted in Figure \@ref(fig:fixed-effects-plot).
+
+```{r, fixed-effects-plot, include = TRUE, fig.cap="(ref:cap-fixed-effects)"}
+fixed_effect_RT_ERROR(subset_validity_estimates,
+                      mixed_effects_RT,
+                      mixed_effects_ERROR)
+
+knitr::include_graphics(here::here("plots",
+                                   "fixed_effects_RT_ERROR.png"))
+```
+
+(ref:cap-fixed-effects) The fixed-effects of two mixed-effects models predicting the `percentage_valid` (x-axis) from stimulus type (y-axis) corrected for IAT context (not visualized). Each subplot shows the fixed-effect estimate (point) with 95% Confidence Interval (errorbars), and the uncontrolled raw data (individual stimuli). *** $p$ < .001; ** $p$ < .01, * $p$ < .01, . $p$ < .1
+
+All stimulus types, bar the nouns in the `ERROR` model, were significant predictors of `percentage_valid` when corrected for IAT context. The fixed effects show that images, on average, are valid in more of the `r n_samples` samples than other stimulus types. This is the case for both the `RT` and `ERROR` criterion, although the effect of stimulus type is more pronounced for the `RT` criterion. The names in the `ERROR` criterion are also a significant predictor of stimulus validity, yet are considerably more error prone than other stimulus types.
+
+When we explore the raw data it becomes evident that there is large variability of stimulus validity within stimulus types. To some extent, this variability was already evident in the analyses of contextual differences - as the re-used stimuli were all adjectives. Variability within stimulus types is also evident in the individual IAT results (see the [online Appendix](https://osf.io/dw23y/?view_only=25b62f307a1349e7883549b473091483)). For example, in the President-IAT the images of the recent presidents (Trump; Obama) were valid, while images of older presents were unreliable. This illustrates that there is both within- and between-stimulus type variability.

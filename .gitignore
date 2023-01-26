@@ -1,9 +1,32 @@
+# General
 .Rproj.user
 .Rhistory
 .RData
 .Ruserdata
-/main_cache/
-/main_files/
+.DS_Store
 
-/datasets/processed/
-/datasets/original/*.sav
+# ignore all knitting folders
+*_files
+*_cache/
+
+# DATA
+# Pilot data available via OSF (https://osf.io/dw23y/)
+datasets/pilot_stage_1/*
+!datasets/pilot_stage_1/README.md
+
+# Full data can be downloaded via `retrieve_data.R`
+datasets/OSF
+
+# ANALYSES
+# Ignore all analyses and intermittend files
+# Can be rerun even though it takes a long time (see vignette)
+/datasets/Analyses/*
+
+# RESULTS
+# Summary files - can be rerun (see vignette)
+/IAT_results/*
+!IAT_results/README.md
+
+# Plots - can be rerun (see vignette)
+/plots/IATs/*
+!/plots/IATs/README.md

@@ -5,7 +5,7 @@ editor_options:
 <!--
 ################################################################################
 ################################################################################
-### LISCENSE:                                                                ###
+### LICENSE:                                                                 ###
 ### This code is available under a CC BY-NC-SA 4.0 license                   ###
 ### https://creativecommons.org/licenses/by-nc-sa/4.0/                       ###
 ###                                                                          ###
@@ -16,7 +16,7 @@ editor_options:
 ################################################################################
 -->
 
-Implicit measures of attitudes, among which the IAT, aim to surpass the social desirability bias often associated with self-report measures [@GREENWALD1998; @FAZIO1995]. The social desirability bias is the participants' tendency to provide responses that are socially acceptable rather than a reflection of their true attitudes [Maccoby & Maccoby, 1954 in @FISHER1993]. Implicit measures surpass this bias [^opposing_views] by measuring attitudes indirectly, thereby revealing biases that were less pronounced or non-existent when measured with explicit/direct self-report questionnaires [@GREENWALD1998; @FAZIO1995; @HOFMANN2005]. The IAT, for example, measures bias indirectly by comparing response times across a 7-block categorization task [@GREENWALD1998; @GREENWALD2003]. Because implicit measures surpass social desirability biases they are used most often in contexts where such biases are likely to occur. Examples include measuring sexual attraction to children [@BABCHISHIN2013], racial biases towards Asian-Americans after terming COVID-19 the "China Virus" [@DARLING-HAMMOND2020], or measuring an individuals' suicidal thoughts [@TELLO2019].
+Implicit measures of attitudes, among which the IAT, aim to surpass the social desirability bias often associated with self-report measures [@GREENWALD1998; @FAZIO1995]. The social desirability bias is the participants' tendency to provide responses that are socially acceptable rather than a reflection of their true attitudes [Maccoby & Maccoby, 1954 in @FISHER1993]. Implicit measures surpass this bias [^opposing_views] by measuring attitudes indirectly, thereby revealing biases that were less pronounced or non-existent when measured with explicit/direct self-report questionnaires [@GREENWALD1998; @FAZIO1995; @HOFMANN2005]. The IAT, for example, measures bias indirectly by comparing response times across a 7-block categorization task [@GREENWALD1998; @GREENWALD2003]. Because implicit measures surpass social desirability biases they are used most often in contexts where such biases are likely to occur. Examples include measuring sexual attraction to children [@BABCHISHIN2013], racial biases towards Asian-Americans after terming COVID-19 the "China Virus" [@DARLING-HAMMOND2020], or measuring an individuals' suicidal thoughts [@TELLO2020].
 
 <!-- footnote -->
 [^opposing_views]: Among others, @HOFMANN2005 and @GAWRONSKI2009 provide mixed evidence accounts of implicit measures effectively reducing social desirability biases.
@@ -28,7 +28,7 @@ The categories, pictured on two sides of the screen, correspond with designated 
 For each participant, RTs are used to compute the participants bias score ($D_{IAT}$). The participants' bias score expresses the association strength between the four categories [@NOSEK2005]. In the case of the GC-IAT, a positive $D_{IAT}$ indicates that the participant responded faster when the categories were paired Career-Male and Family-Female than when the categories were paired Career-Female and Family-Male. Note that the IAT is a parallel association task; all four categories are presented at once. We thus cannot infer a difference in association strength between two categories (e.g., Career-Male vs. Career-Female), but only the difference between the four categories in different pairings [@BRENDL2001]. Central to our research is the fact that both the categories and exemplars exert an effect on $D_{IAT}$ [@GAST2010] and (in)appropriate stimuli selection directly effects the (direction of) the measured bias score.
 
 <!-- Image: visualization of the IAT paradigm -->
-```{r, label = img-iat-paradigm, fig.height = 8.45/2.45, fig.cap = "(ref:cap-iat-paradigm)", warning = FALSE}
+```{r, label = img-iat-paradigm, fig.height = 8.45/2.45, fig.cap = "(ref:cap-iat-paradigm)", warning = FALSE, include = TRUE}
 knitr::include_graphics(here::here("images",
                                    "IAT-diagram.png"))
 ```

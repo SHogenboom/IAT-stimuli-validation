@@ -1,0 +1,70 @@
+---
+title: "`r glue::glue('{params$IAT_name}-IAT')`"
+description: |
+  The results presented in this document are supplementary to the manuscript **"Implicit Association Tests: Stimuli Validation from Participant Responses"**.  Please refer to the accompanying [Open Science Framework](https://osf.io/dw23y/?view_only=25b62f307a1349e7883549b473091483) for details on the data, procedures, and other results.
+date: "`r Sys.Date()`"
+output: distill::distill_article
+urlcolor: blue
+params:
+  IAT_name: character
+bibliography      : ["../bibliographies/literature.bib"]
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE,
+                      include = FALSE,
+                      cache = FALSE)
+
+# Style the output of numbers in text to have comma's 
+# ... as the big number separators (e.g., 1,000)
+knitr::knit_hooks$set(inline = function(x) {
+  prettyNum(x, big.mark = ",", decimal.mark = ".")
+})
+
+# prevent scientific notation
+options(scipen = 999) 
+
+#### CUSTOM FUNCTIONS ####
+# Load custom created functions (e.g., exclusion criteria)
+invisible(
+  # do NOT print which functions have been loaded
+  # Loop over all found files
+  sapply(
+    list.files(
+      here::here("functions"),
+                    pattern = ".R",
+      recursive = TRUE),
+         FUN = function(x) {
+           # Run the code == load function into global memory
+           source(file = here::here("functions", x))
+           })
+  )
+
+```
+
+```{r descriptives}
+results_text <- results_text(params$IAT_name,
+                             year_of_interest)
+```
+
+`r results_text$participants_and_responses` `r results_text$age` 
+
+@GREENWALD2021 propose that valid stimuli are those that are rapidly (RT < 800 ms) and accurately (errors < 10%) categorized (p. 7). Figure \@ref(fig:results-plot) shows the distribution of average response times and error rates across `r n_samples` samples of `r n_subjects_per_sample` participants for the `r glue::glue("{params$IAT_name}-IAT")`. 
+
+`r results_text$RT` `r results_text$ERROR` `r results_text$TOTAL`
+
+<center>
+
+```{r, results-plot, fig.cap = "(ref:results-cap)", warning=FALSE, include = TRUE, layout="l-body-outset"}
+knitr::include_graphics(path =
+                          here::here("plots",
+                                     "IATs",
+                                     glue::glue("{params$IAT_name}_{year_of_interest}.png")))
+```
+
+</center>
+  
+(ref:results-cap) The validity estimates per stimulus of the params$IAT_name-IAT (`r year_of_interest`). **[RT]** The distribution of *average response time* across `r n_samples` samples of `r n_subjects_per_sample` participants. Within each sample a stimulus (left y-axis) is judged as valid if the average response time is lower than 800 milliseconds (vertical blue line). A stimulus is classed as *reliably* valid (green) if 95% or more of the samples resulted in a valid judgment (right y-axis). Stimuli are considered reliably invalid (red) if a stimulus is classed as valid in 5% or less of the samples. Stimuli that were valid in 6% to 94% of the samples were classed as unreliable (black). **[ERROR]** The distribution of the *percentage of errors* across `r n_samples` samples of `r n_subjects_per_sample` participants. Within each sample a stimulus (left y-axis) is judged as valid if less than 10 percent of the trials were answered incorrectly (vertical blue line). **[TOTAL]** An overview of the validity judgments per exemplar based on average response times (RT) and percentage of errors (ERROR). A stimulus was classed as valid (TOTAL) if both criteria were reliably valid, but as invalid if either criterion was reliably invalid. If the criteria were both unreliable, a stimulus was also classed as unreliable.
+
+
+

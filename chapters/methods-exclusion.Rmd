@@ -3,234 +3,77 @@ editor_options:
   chunk_output_type: console
 ---
 <!--
-################################################################################
-################################################################################
-### LISCENSE:                                                                ###
-### This code is available under a CC BY-NC-SA 4.0 license                   ###
-### https://creativecommons.org/licenses/by-nc-sa/4.0/                       ###
-###                                                                          ###
-### BY  – Credit must be given to the creator                                ###
-### NC  – Only noncommercial uses of the work are permitted                  ###
-### SA  – Adaptations must be shared under the same terms                    ###
-################################################################################
-################################################################################
+###############################################################################
+###############################################################################
+### LICENSE:                                                               ###
+### This code is available under a CC BY-NC-SA 4.0 license                 ###
+### https://creativecommons.org/licenses/by-nc-sa/4.0/                     ###
+###                                                                        ###
+### BY  – Credit must be given to the creator                              ###
+### NC  – Only noncommercial uses of the work are permitted                ###
+### SA  – Adaptations must be shared under the same terms                  ###
+###############################################################################
+###############################################################################
 -->
 
-The exclusion criteria are based on the available literature and analyses of the pilot data. We differentiate between exclusion criteria that can be derived from the compressed data (e.g., demographic criteria) and those that can only be derived from the response data (e.g., extremely long response times). When participants are excluded based on compressed data criteria, their data is also removed from the raw data, and vice versa. Figure \@ref(fig:plot-exclusion-pilot) and Figure \@ref(fig:plot-exclusion-full) show the impact of the exclusion criteria when applied to the pilot and full data, respectively.
-
-### Raw Data {#methods-exclusion-raw}
-
-The raw data includes trial-by-trial information such as response times and errors. Previous research excluded slow and/or recoded fast response times. In line with guidelines set forth by Greenwald et al. [-@GREENWALD2003; -@GREENWALD2021] we will apply an upper limit excluding trials where the response time is larger than 10,000 ms. We will not recode responses that could be considered as "too fast" (e.g., < 400 ms) because systematic too fast responses may offer relevant information about the variation in average response times. We will exclude responses with a response time of zero milliseconds as these are likely the cause of technical malfunction. Note that the trials are removed, but the participants themselves are not excluded.
-
-Contrary to suggested guidelines, in the present research we will exclude participants based on error percentages. @GREENWALD2003 showed that it was unnecessary, but not incorrect, to exclude participants with high error rates (Study 3). We opted to exclude participants who performed below chance (< 50% correct trials across all blocks), because the low success-rates may indicate that participants did not understand task demands and should thus not be considered when validating task content.
-
-```{r, pilot-error-rates, eval = FALSE}
-# NOTE: NOT included in the manuscript, only for exploratory checks
-
-# GOAL
-# Visualize the error rate distribution of the pilot data that caused us to 
-# ... specify an exclusion criteria based on error percentages
-
-pilot_error_rates <-
-  # Use the raw data PRIOR to exclusion
-  pilot_raw_old %>%
-        # Compute per participant / session
-        group_by(session_id) %>%
-        # Determine percentage error
-        summarize("n_trials" = n(),
-                  # trial_error = 0 (correct) or 1 (incorrect)
-                  "n_errors" = sum(trial_error),
-                  # computer percentage
-                  "perc_errors" = n_errors / n_trials * 100) %>%
-        ungroup() 
-
-# compute the quartiles and IQR 
-pilot_error_IQR <- IQR(pilot_error_rates$perc_errors) # Inter Quartile Range
-pilot_error_Q3 <- quantile(pilot_error_rates$perc_errors)["75%"] # Upper Quartile
-pilot_error_upper <- pilot_error_Q3 + (1.5 * pilot_error_IQR) # Outlier Boundary
-
-# Define outlier type (for plotting)
-pilot_error_rates <-
-  pilot_error_rates %>%
-  mutate("outlier_type" = case_when(perc_errors < pilot_error_upper ~ "Normal",
-                                    perc_errors <= 50 ~ "Outlier",
-                                    # all other cases (ie > 5-)
-                                    TRUE ~ "Below Chance"))
-
-pilot_error_n_excluded <- sum(pilot_error_rates$outlier_type != "Normal")
-pilot_error_perc_excluded <- round((pilot_error_n_excluded / nrow(pilot_error_rates)) * 100, 2)
-
-# CREATE PLOT
-ggplot(data = pilot_error_rates) +
-  # VERTICAL LINES
-  geom_vline(xintercept = c(pilot_error_upper, 50),
-             col = c("#D55E00", "grey")) + # red, grey
-  # DATA POINTS
-  geom_jitter(aes(x = perc_errors,
-                  y = 1,
-                  col = outlier_type),
-              height = 0.3,
-              alpha = 0.4) + 
-  # SUMMARIES
-  geom_violin(aes(x = perc_errors,
-                   y = 2)) + 
-  geom_boxplot(aes(x = perc_errors,
-                   y = 2),
-               width = 0.3,
-               outlier.shape = NA) + 
-  # STYLING
-  theme_minimal() +
-  scale_color_manual(values = c("Normal" = "#009E73", # green
-                                "Outlier" = "#D55E00", # red
-                                "Below Chance" = "black")) + # grey
-  scale_x_continuous(breaks = seq(from = 0,
-                                  to = 100,
-                                  by = 10),
-                     labels = function(x) {paste0(x, "%")},
-                     sec.axis = sec_axis(trans = ~.,
-                                         breaks = c(round(pilot_error_upper, 2), 50),
-                                         labels = function(x) {paste0(x, "%")})) +
-  labs(x = "Percentage of Incorrect Trials",
-       y = element_blank(),
-       col = element_blank()) +
-  theme(axis.ticks.y = element_blank(),
-        axis.text.y = element_blank(),
-        legend.position = "top")
-
-# Descriptives
-perc_outlier <- 
-  round(sum(pilot_error_rates$outlier_type == "Outlier") / 
-          nrow(pilot_error_rates) * 100, 2)
-perc_below_chance <-
-   round(sum(pilot_error_rates$outlier_type == "Below Chance") / 
-          nrow(pilot_error_rates) * 100, 2)
-
-# FIGURE CAPTION
-# (ref:plot-pilot-error-rates) The percentage of incorrect trials per participant in the raw pilot data *before* exclusion. Participants have been defined as outliers (red dots) when their error rates exceeded $Q_3 + (1.5 * IQR)$ (red line; `r round(pilot_error_upper, 2)`%). In addition, a special case of outliers was marked when the participants performed below chance (> 50% incorrect; black dots). In total, `r perc_outlier`% of the participants were classed as outliers and `r perc_below_chance`% as performing below chance.
-```
+The exclusion criteria were based on the available literature and analyses of the pilot data. We differentiate between exclusion criteria that were applied to the compressed data (e.g., demographic criteria) and those that were applied to the raw response data (e.g., extremely long response times). When participants were excluded based on compressed data criteria, their data was also removed from the raw data. Figure \@ref(fig:plot-exclusion-pilot) and Figure \@ref(fig:plot-exclusion-full) show the impact of the exclusion criteria when applied to the pilot and full data, respectively.
 
 ### Compressed Data {#methods-exclusion-compressed}
 
-The compressed data contains information on summary statistics of the IAT, demographics, and answers to explicit questions (removed during data preprocessing). Participants who did not complete the full IAT will be removed from further analyses based on missing $D_{IAT}$ and/or an incomplete `session_status`.
+The compressed data contains information on summary statistics of the IAT, demographics, and answers to explicit questions (removed during data preprocessing). Participants who did not complete the full IAT were removed from further analyses based on missing $D_{IAT}$ and/or an incomplete `session_status`.
 
-Participants were at times excluded who self-reported to have prior IAT experience. In the new guidelines, @GREENWALD2021 state that the IAT retains its' measurement properties with repeated measurement, although evidence indicates more polarized results at the first IAT measurement (section 2–4). We thus opted to refrain from exclusion based on prior IAT experience.
+In the new guidelines, @GREENWALD2021 state that the IAT retains its' measurement properties with repeated measurement, although evidence indicates more polarized results at the first IAT measurement (section 2–4). We thus opted to refrain from exclusion based on prior IAT experience.
 
-@GREENWALD2003 showed the statistical benefits of removing participants who made too many fast responses. Participants who responded faster than 300 ms on more than 10% of the trials will be excluded from subsequent analyses [Step 5 in Appendix B, @GREENWALD2021]. 
+@GREENWALD2003 showed the statistical benefits of removing participants who made too many fast responses. Participants who responded faster than 300 ms on more than 10% of the trials were excluded from subsequent analyses [Step 5 in Appendix B, @GREENWALD2021]. 
 
-The criteria discussed above focused on aspects inherent to the IAT paradigm, but two additional criteria - based on demographic information - warrant consideration. First, to determine the validity of IAT stimuli, we need to ensure that participants have the highest common ground with regards to concept meaning. We cannot control for this fully but restricting the participant sample to participants who live and grew up in the same country is the best approximation possible for the current data set. We will thus exclude participants that did not reside in, nor have citizenship of, the United States of America (USA). We will further exclude participants who opted not to provide citizenship and/or residency information.
+The criteria discussed above focused on aspects inherent to the IAT paradigm, but two additional criteria - based on demographic information - warrant consideration. First, to determine the validity of IAT stimuli, we need to ensure that participants have the highest common ground with regards to concept meaning. We cannot control for this fully but restricting the participant sample to participants who live and grew up in the same country is the best approximation possible for the current data set. We thus excluded participants that did not reside in, nor have citizenship of, the United States of America (USA). We further excluded participants who opted not to provide citizenship and/or residency information.
 
-Second, when participants enter the Project Implicit website, they are asked to provide informed consent. Even though participants may have agreed to the terms and conditions, US States enforce age-limits for the ability to provide consent (ranging from 16 – 18; [https://www.ageofconsent.net/states](https://www.ageofconsent.net/states)). We will exclude participants who self-reported to be younger than 18 years old at the time of IAT completion. @GREENWALD2021 further proposed that the validity of exemplars may be derived from examination of the data of "young adult subjects" (p. 7). We define "young adult subjects" as participants between 18 and 25 years old; excluding all participants who self-reported to be older than 25.
+Second, when participants enter the Project Implicit website, they are asked to provide informed consent. Even though participants may have agreed to the terms and conditions, US States enforce age-limits for the ability to provide consent (ranging from 16 – 18; [https://www.ageofconsent.net/states](https://www.ageofconsent.net/states)). We excluded participants who self-reported to be younger than 18 years old at the time of IAT completion. @GREENWALD2021 further proposed that the validity of exemplars may be derived from examination of the data of "young adult subjects" (p. 7). We defined "young adult subjects" as participants between 18 and 25 years old; excluding all participants who self-reported to be older than 25.
 
-```{r, pilot-age-distribution, eval = FALSE}
-# NOTE: NOT included in the manuscript, only for exploratory purposes
+### Raw Data {#methods-exclusion-raw}
 
-# Find participant ages
-age_dat <-
-  pilot_compressed_old %>%
-  select(session_id, age) %>%
-  na.omit()
+The raw data includes trial-by-trial information such as response times and errors. Previously slow and/or fast response times were deleted or recoded. In line with guidelines set forth by Greenwald et al. [-@GREENWALD2003; -@GREENWALD2021] we applied an upper limit excluding trials where the response time is larger than 10,000 ms. We did not recode responses that could be considered as "too fast" (e.g., < 400 ms) because systematic too fast responses may offer relevant information about the variation in average response times. We did, however, exclude responses with a response time of zero milliseconds as these were likely the cause of technical malfunction. Note that the trials are removed, but the participants themselves were not excluded.
 
-# compute the quartiles and IQR 
-pilot_age_IQR <- IQR(age_dat$age) # Inter Quartile Range
-pilot_age_Q3 <- quantile(age_dat$age)["75%"] # Upper Quartile
-pilot_age_upper <- pilot_age_Q3 + (1.5 * pilot_age_IQR) # Outlier Boundary
+Contrary to suggested guidelines, in the present research we excluded participants based on error percentages. @GREENWALD2003 showed that it was unnecessary, but not incorrect, to exclude participants with high error rates (Study 3). We opted to exclude participants who performed below chance (< 50% correct trials across all blocks), because the low success-rates may indicate that participants did not understand task demands and should thus not be considered when validating task content.
 
-# CREATE PLOT
-ggplot(data = age_dat) +
-  # Outlier line
-  geom_vline(xintercept = c(18, pilot_age_upper),
-             col = "#D55E00") + # red
-  # Individual data points
-  geom_jitter(aes(x = age,
-                 y = 1,
-                 col = ifelse(age > pilot_age_upper | age < 18,
-                              "Outlier",
-                              "Normal")),
-             alpha = 0.4,
-             height = 0.5) +
-  # Summary
-  geom_violin(aes(x = age,
-                  y = 2)) +
-  geom_boxplot(aes(x = age,
-                   y = 2),
-               width = 0.3) +
-  # STYLING
-  theme_minimal() +
-  theme(axis.ticks.y = element_blank(),
-        axis.text.y = element_blank(),
-        legend.position = "top") + 
-  labs(x = "Age",
-       y = element_blank(),
-       col = element_blank()) +
-  scale_color_manual(values = c("Normal" = "#009E73", # green
-                                "Outlier" = "#D55E00"# red
-                                )) + # grey
-  scale_x_continuous(n.breaks = 10,
-                     sec.axis = sec_axis(trans = ~.,
-                                         breaks = c(16, pilot_age_upper),
-                                         labels = c("Age of Consent", "Outlier")))
+```{r plot-exclusion-pilot, include = TRUE, fig.cap = "(ref:plot-exclusion-criteria)"}
+combined_exclusion_plots(
+  IAT_name = "Gender-Career",
+  year_of_interest = 2019
+)
 
-# FIGURE CAPTION
-# (ref:pilot-age-caption) The distribution of participant age in the compressed pilot data *before* exclusion. Participants were defined as outliers (red dots) when they (A) were younger than the age of consent (18), or (B) older than `r pilot_age_upper` ($Q_3 + (1.5 * IQR)$).
-```
-
-```{r, plot-exclusion-pilot, fig.cap = "(ref:plot-exclusion-criteria)"}
-# See functions/exclusion_plot.R
-
-#### RAW ####
-# Create the plot
-plot_excl_raw <- 
-  plot_exclusion_criteria(exclusion_data = pilot_raw_exclusion,
-                          datType = "raw")
-
-#### COMPRESSED ####
-# Create the plot
-plot_excl_compressed <- 
-  plot_exclusion_criteria(exclusion_data = pilot_compressed_exclusion,
-                          datType = "compressed")
-
-#### COMBINE ####
-# Extract the legend, so it can be plotted only once
-plot_legend <- cowplot::get_legend(plot_excl_compressed)
-# Combine the two plots
-cowplot::plot_grid(plot_legend, # first plot the legend
-                   # plots without legends
-                   plot_excl_raw + theme(legend.position = "none"), 
-                   plot_excl_compressed + theme(legend.position = "none"),
-                   # Three rows (1 legend + 2 plots)
-                   nrow = 3,
-                   # Assign labels, leave legend label empty
-                   labels = c("", "A", "B"),
-                   # Assign heights of the plots, legend should take up less space
-                   rel_heights = c(0.2, 1, 1),
-                   # Align the plots left
-                   axis = "l")
+knitr::include_graphics(here::here(
+  "plots",
+  "exclusion_criteria",
+  "Gender-Career_2019.png"
+))
 ```
 
 <!-- figure caption -->
-(ref:plot-exclusion-criteria) Summary of excluded data. (A) The effects of the exclusion criteria on the ***raw*** pilot data. *Completion*: participants were excluded if they failed to complete the full IAT. *D-score*: for various reasons, among which technical error, IAT D-scores (i.e., $D_{IAT}$) may have been missing. *PCT 300*: participants were excluded if the percentage of responses faster than 300 ms was higher than 10%. *Nationality*: participants were excluded if they did not reside in, nor have citizenship of, the United States of America. *Age*: participants were excluded if they were younger than 18 or older than 25. *Total*: the unique number of participants excluded based on missing data and/or explicit exclusion. (B) The effects of the exclusion criteria in the ***compressed*** pilot data. *Latency*: trials were excluded if they exceeded 10,000 ms or were 0 ms. *% Errors*: trials were excluded if the participant answered more than 50% of their trials incorrectly. *Total*: the total number of trials excluded based on the prior criteria. **Note:** the data of participants which were excluded based on the *raw* data were excluded from the *compressed* data, and vice versa. After mutual exclusion, `r nrow(pilot_compressed)` participants were eligible for analyses.
+(ref:plot-exclusion-criteria) Summary of excluded **pilot** data. (A) The effects of the exclusion criteria on the ***compressed*** data. *Completion*: participants were excluded if they failed to complete the full IAT. *D-score*: for various reasons, among which technical error, IAT D-scores (i.e., $D_{IAT}$) may have been missing. *PCT 300*: participants were excluded if the percentage of responses faster than 300 ms was higher than 10%. *Nationality*: participants were excluded if they did not reside in, nor have citizenship of, the United States of America. *Age*: participants were excluded if they were younger than 18 or older than 25. *Total*: the unique number of participants excluded based on missing data and/or explicit exclusion. (B) The effects of the exclusion criteria in the ***raw*** pilot data. *Latency*: trials were excluded if they exceeded 10,000 ms or were 0 ms. *% Errors*: trials were excluded if the participant answered more than 50% of their trials incorrectly. *Total*: the total number of trials excluded based on the prior criteria. **Note:** the data of participants which were excluded based on the *compressed* data were excluded from the *raw* data *prior* to applying the exclusion criteria. After mutual exclusion, `r pilot$nrow_compressed` participants were eligible for analyses.
 
-```{r, plot-exclusion-full, fig.cap = "(ref:plot-exclusion-criteria-compressed)", fig.height = 2.5}
-# See functions/exclusion_plot.R
-
-# Load exclusion statistics
-full_exclusion_stats <-
-  read.csv(here::here("datasets",
-                      "processed",
-                      "compressed_2020_exclusion_statistics.csv"),
-           stringsAsFactors = FALSE) %>%
-  # Add all numbers together
-  group_by(Criteria, Type) %>%
-  summarize("N-total" = sum(N),
-            "index" = unique(index)) %>%
-  ungroup() %>%
-  # rename for plotting
-  rename("N" = `N-total`)
-
+```{r plot-exclusion-full, include = TRUE, fig.cap ="(ref:plot-full-exclusion-criteria)"}
 # CREATE PLOT
-plot_exclusion_criteria(exclusion_data = full_exclusion_stats,
-                        datType = "compressed")
+combined_exclusion_plots(
+  IAT_name = "FULL_SAMPLE",
+  year_of_interest
+)
+
+# IN-TEXT Descriptives
+stats <-
+  get_full_sample_descriptives(year_of_interest)
+
+# INCLUDE plot in manuscript
+knitr::include_graphics(
+  here::here(
+    "plots",
+    "exclusion_criteria",
+    glue::glue(
+      "FULL_SAMPLE_{year_of_interest}.png"
+    )
+  )
+)
 ```
 
 <!-- figure caption -->
-(ref:plot-exclusion-criteria-compressed) The aggregated effects of the exclusion criteria when applied to the ***compressed*** data of `r length(included_IATs)` IATs. Even though exclusions based on the raw data (e.g., percentage of errors) are not included, it is noteworthy that the exclusion percentages are comparable to the pilot analyses of the GC-IAT (2019; Figure \@ref(fig:plot-exclusion-pilot)).  *Completion*: participants were excluded if they failed to complete the full IAT. *D-score*: for various reasons, among which technical error, IAT D-scores (i.e., $D_{IAT}$) may have been missing. *PCT 300*: participants were excluded if the percentage of responses faster than 300 ms was higher than 10%. *Nationality*: participants were excluded if they did not reside in, nor have citizenship of, the United States of America. *Age*: participants were excluded if they were younger than 18 or older than 25. *Total*: the unique number of participants excluded based on missing data and/or explicit exclusion.
+(ref:plot-full-exclusion-criteria) Summary of the excluded **full** data. (A) The effects of the exclusion criteria on the ***compressed*** data. *Completion*: participants were excluded if they failed to complete the full IAT. *D-score*: for various reasons, among which technical error, IAT D-scores (i.e., $D_{IAT}$) may have been missing. *PCT 300*: participants were excluded if the percentage of responses faster than 300 ms was higher than 10%. *Nationality*: participants were excluded if they did not reside in, nor have citizenship of, the United States of America. *Age*: participants were excluded if they were younger than 18 or older than 25. *Total*: the unique number of participants excluded based on missing data and/or explicit exclusion. (B) The effects of the exclusion criteria in the ***raw*** data. *Latency*: trials were excluded if they exceeded 10,000 ms or were 0 ms. *% Errors*: trials were excluded if the participant answered more than 50% of their trials incorrectly. *Total*: the total number of trials excluded based on the prior criteria. **Note:** the data of participants which were excluded based on the *compressed* data were excluded from the *raw* data *prior* to applying the exclusion criteria. After exclusion, `r stats$total_included` participants were included in total (N = `r stats$min_pp_per_IAT` - `r stats$max_pp_per_IAT`, $M$ = `r stats$mean_pp_per_IAT`, $SD$ = `r stats$sd_pp_per_IAT`).

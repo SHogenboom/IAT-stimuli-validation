@@ -5,7 +5,7 @@ editor_options:
 <!--
 ################################################################################
 ################################################################################
-### LISCENSE:                                                                ###
+### LICENSE:                                                                ###
 ### This code is available under a CC BY-NC-SA 4.0 license                   ###
 ### https://creativecommons.org/licenses/by-nc-sa/4.0/                       ###
 ###                                                                          ###
@@ -16,80 +16,37 @@ editor_options:
 ################################################################################
 -->
 
-```{r, pilot-results-demographics}
-mean_age <- round(mean(pilot_compressed$age), 2)
-sd_age <- round(sd(pilot_compressed$age), 2)
-age_ci <- round(Rmisc::CI(pilot_compressed$age), 2)
-```
-
-We conducted pilot analyses with the data of the GC-IAT to formalize the analyses and reports of the results for individual IATs. The results included here will be generated for each of the `r length(included_IATs)` IATs included in the final analysis. The pilot data included `r nrow(pilot_compressed)` participants who provided `r nrow(pilot_raw)` responses overall and `r nrow(pilot_raw[pilot_raw$block_number %in% c(1, 2), ])` responses in Block 1 and 2. The included participants were on average `r mean_age` years old ($SD$ = `r sd_age`; 95% CI = `r age_ci[1]`, `r age_ci[3]`).  
-
-```{r, pilot-analyses}
-#### PREPARE DATA ####
-pilot_raw_12 <-
-  pilot_raw %>%
-  # Greenwald et al., 2020: "The useful data will come from Blocks 1 and 2
-  # ... of the standard procedure"
-  filter(block_number %in% c(1, 2)) %>%
-  # Convert to list to allow for repeated selection of the same participant
-  # It is ultimately more efficient when applying bootstrap m out of n resamples
-  group_by(session_id) %>%
-  group_split()
-
-#### CATEGORIES ####
-# For plotting
-categories <-
-  pilot_raw %>%
-  group_by(trial_name) %>%
-  summarize("category" = unique(block_name)) %>%
-  ungroup()
-
-#### BOOTSTRAPS ####
-# see functions/bootstrapped_parameters.R
-# NOTE: depending on the n_samples this can take a fairly long time to run!
-pilot_resamples <-
-  bootstrapped_parameters(raw_dat_list = pilot_raw_12,
-                          n_samples = n_samples, 
-                          n_subjects_per_sample = n_subjects_per_sample)
-
-#### EXEMPLAR VALIDITY ####
-# Reliability of the validity estimates is determined from the percentage of 
-# ... samples that has reached the sample conclusions
-pilot_exemplar_validity <-
-  # see functions/validity_estimates.R
-  exemplar_validity_estimates(samples = pilot_resamples,
-                              perc_limit = 95) %>%
-  # Add the category information for plotting
-  left_join(categories,
-            by = "trial_name") %>%
-  # Restructure for ease of interpretation
-  arrange(category, trial_name)
-```
-
 ```{r, pilot-results-text}
-#### RESULTS TEXT ####
-# see functions/results_text.R
-validity_text <- results_text(exemplar_stats = pilot_exemplar_validity,
-                              IAT = "GC-IAT")
+pilot_results_text <- results_text(IAT_name = "Gender-Career",
+                                   year_of_interest = 2019)
 ```
 
-@GREENWALD2021 propose that valid stimuli are those that are rapidly (RT < 800 ms) and accurately (errors < 10%) categorized (p. 7). Figure \@ref(fig:pilot-results-plot) shows the distribution of average response times and error rates across `r n_samples` samples of `r n_subjects_per_sample` participants of the pilot GC-IAT. `r validity_text$RT` `r validity_text$ERROR` `r validity_text$TOTAL`
+We conducted pilot analyses with the data of the GC-IAT to formalize the analyses and reports of the results for individual IATs. `r pilot_results_text$participants_and_responses` `r pilot_results_text$age`.
+
+Figure \@ref(fig:pilot-results-plot) shows the distribution of average response times and error rates across `r n_samples` samples of `r n_subjects_per_sample` participants of the pilot GC-IAT. `r pilot_results_text$RT` `r pilot_results_text$ERROR` `r pilot_results_text$TOTAL`
 
 <center>
 
-```{r, pilot-results-plot, fig.cap = "(ref:results-cap)", warning=FALSE}
-#### PLOTS ####
-pilot_plots <- 
-  results_plot(exemplar_samples = pilot_resamples,
-               exemplar_stats = pilot_exemplar_validity,
-               filename = here::here("plots",
-                                     "pilot-results.png"))
-  
-knitr::include_graphics(path = here::here("plots",
-                                          "pilot-results.png"))  
-       
+```{r, pilot-results-plot, fig.cap = "(ref:results-cap)", include = TRUE}
+# Create plot
+results_plot(IAT = "Gender-Career",
+             year_of_interest = 2019,
+             plotHeight = 19.5)
+
+# Include plot in manuscript
+knitr::include_graphics(here::here(
+  "plots",
+  "IATs",
+  "Gender-Career_2019.png"
+))
 ```
 
 </center>
 
-(ref:results-cap) The validity estimates per stimulus of the Gender-Career IAT (November - December, 2019). **(A)** The distribution of *average response time* across `r n_samples` samples of `r n_subjects_per_sample` participants. Within each sample a stimulus (left y-axis) is judged as valid if the average response time is lower than 800 milliseconds (vertical blue line). A stimulus is classed as reliably valid (green) if 95% or more of the samples resulted in a valid judgment (right y-axis) and reliably invalid (red) if a stimulus is classed as valid in 5% or less of the samples. Stimuli that were valid in 6% to 94% of the samples were classed as unreliable (black). **(B)** The distribution of the *percentage of errors* across `r n_samples` samples of `r n_subjects_per_sample` participants. Within each sample a stimulus (left y-axis) is judged as valid if less than 10 percent of the trials were answered incorrectly (vertical blue line). **(C)** An overview of the validity judgments per exemplar based on average response times (RT) and percentage of errors (ERROR). A stimulus was classed as valid (OVERALL) if both criteria were also reliably valid, but as invalid if either criterion was reliably invalid. If the criteria were both unreliable, a stimulus was also classed as unreliable.
+(ref:results-cap) The validity estimates per stimulus of the Gender-Career IAT (November - December, 2019). **[RT]** The distribution of *average response time* across `r n_samples` samples of `r n_subjects_per_sample` participants. Within each sample a stimulus (left y-axis) is judged as valid if the average response time is lower than 800 milliseconds (vertical blue line). A stimulus is classed as *reliably* valid (green) if 95% or more of the samples resulted in a valid judgment (right y-axis). Stimuli are considered reliably invalid (red) if a stimulus is classed as valid in 5% or less of the samples. Stimuli that were valid in 6% to 94% of the samples were classed as unreliable (black). **[ERROR]** The distribution of the *percentage of errors* across `r n_samples` samples of `r n_subjects_per_sample` participants. Within each sample a stimulus (left y-axis) is judged as valid if less than 10 percent of the trials were answered incorrectly (vertical blue line). **[TOTAL]** An overview of the validity judgments per exemplar based on average response times (RT) and percentage of errors (ERROR). A stimulus was classed as valid (TOTAL) if both criteria were reliably valid, but as invalid if either criterion was reliably invalid. If the criteria were both unreliable, a stimulus was also classed as unreliable.
+
+The pilot analyses of the GC-IAT showed interesting patterns which served as input for the preregistered analyses (section \@ref(methods-analyses)). First, Figure \@ref(fig:pilot-results-plot) shows that the `RT` and `ERROR` criterion differently conclude stimulus (in)validity. Based on the `RT` criterion Male/Female names are predominantly considered reliably valid (green), whereas Career/Family nouns are predominantly considered reliably invalid (red). This distinction is not evident for the `ERROR` criterion where all stimuli but 'Home' are reliably valid. The distinction is again evident for the `TOTAL` criterion, where the `RT` and `ERROR` validity are combined. Because both criterion must conclude stimulus validity, the criterion with the highest levels of stimulus invalidity - in this case the `RT` criterion - dominates the final validity verdict (`TOTAL`). We report on the `RT` and `ERROR` criterion separately rather than solely on the `TOTAL` to show when conclusions differ.
+
+The pilot results showed three stimuli which specifically stand out. 'Michelle' and 'Daniel' were the only two unreliable stimuli based on the `RT` criterion. The third stimulus, 'Home', was the only not reliably valid stimulus based on the `ERROR` criterion. The fact that individual stimuli could be problematic prompted us to explore whether stimulus (in)validity is consistent across IAT contexts (see section \@ref(results-context-dependency)).
+
+Finally, the difference between the average response times of the Career/Family stimuli (nouns) and the Male/Female stimuli (names) prompted us to preregister the final analysis. In this third analysis we explored the relationship between stimulus validity and stimulus type. We will explore potential explanations when we discuss the results from this analysis.

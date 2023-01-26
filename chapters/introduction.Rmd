@@ -5,7 +5,7 @@ editor_options:
 <!--
 ################################################################################
 ################################################################################
-### LISCENSE:                                                                ###
+### LICENSE:                                                                 ###
 ### This code is available under a CC BY-NC-SA 4.0 license                   ###
 ### https://creativecommons.org/licenses/by-nc-sa/4.0/                       ###
 ###                                                                          ###
@@ -16,27 +16,13 @@ editor_options:
 ################################################################################
 -->
 
-```{r, included-iat-names}
-# NOTE: this data is generated in `methods-data`, but is accessed here so that
-# ... the number of included IATs can be used as a variable in the text.
-included_IATs <-
-  read.csv(
-    file = here::here(
-      "datasets",
-      "processed",
-      "compressed_2020_N_participants.csv"
-    ),
-    stringsAsFactors = FALSE
-  )$IAT
-```
-
 <!-- OSF guidelines: Introduction 
 "A review of the relevant literature that motivates the research question and a full description of the experimental aims and hypotheses. Please note that following IPA (in principal acceptance), the Introduction section cannot be altered apart from correction of factual errors, typographic errors and altering of tense from future to past (see below)." -->
 
-The *Implicit Association Test* [IAT, @GREENWALD1998] is a popular measurement of implicit attitudes and (stereotypical) biases. New IATs are continuously created and existing IATs are adapted and/or used in new experimental designs. Indeed, within the last three years, the number of IAT studies increased from 3,608 [March 2019, @GREENWALD2020] to 4,172 (February 2022): an average of `r round((4216 - 3608) / lubridate::interval(start = lubridate::dmy(01032019), end = lubridate::dmy(12042022)) %/% months(1), 0)` publications per month [^iat_search]. 
+The *Implicit Association Test* [IAT, @GREENWALD1998] is a popular measurement of implicit attitudes and (stereotypical) biases. New IATs are continuously created and existing IATs are adapted and/or used in new experimental designs. Indeed, within the last four years, the number of IAT studies increased from 3,608 [March 2019, @GREENWALD2020] to 4,350 (January 2023): an average of `r round((4350 - 3608) / lubridate::interval(start = lubridate::dmy(01032019), end = lubridate::dmy(26012023)) %/% months(1), 0)` publications per month [^iat_search]. 
 
 <!-- footnote -->
-[^iat_search]: We replicated the search strategy from @GREENWALD2020 on April $12^{th}$ 2022. We conducted an advanced search on the American Psychological Association’s PsycNET database ([https://psycnet.apa.org/home](https://psycnet.apa.org/home)) for publications including "Implicit Association Test" in the Title, Abstract, Keywords, *OR* Test & Measures.
+[^iat_search]: We replicated the search strategy from @GREENWALD2020 on January $26^{th}$ 2023. We conducted an advanced search on the American Psychological Association’s PsycNET database ([https://psycnet.apa.org/home](https://psycnet.apa.org/home)) for publications including "Implicit Association Test" in the Title, Abstract, Keywords, *OR* Test & Measures.
 
 Some of these publications raise concerns about the construct validity of the IAT [cf., @DEHOUWER2001; @GAWRONSKI2009]. For example, studies show low predictive validity [@GREENWALD2009], low test-retest reliability [@HEHMAN2019], and a lack of discriminant validity [@SCHIMMACK2021]. A possible explanation for the IAT’s measurement issues is the lack of convergence in the utilized stimuli. @AXT2021 argued that stimulus variability has the potential to degrade measurement quality, limit generalizability, cause misinterpretation of (null-) results, and affect associations with other measures. Detrimental effects, such as those argued by @AXT2021, are not only theoretical. Multiple studies show that stimulus choices directly affects the size and direction of the measured IAT bias [e.g., @BLUEMKE2006; @STEFFENS2001]. 
 
@@ -44,9 +30,9 @@ Few articles, however, address how to prevent these measurement issues by select
 
 ## The Implicit Association Test
 
-The IAT measures implicit attitudes and (stereotypical) biases in terms of association strengths between categories. The *Gender-Career IAT* (GC-IAT), for example, is aimed at understanding implicit attitudes towards traditional gender roles by measuring association strengths between the categories Career/Family and Male/Female. In the present section we discuss specifically the IAT’s stimuli. A more detailed description of the entire IAT paradigm is available in Appendix \@ref(IAT-Appendix).
+The IAT measures implicit attitudes and (stereotypical) biases in terms of association strengths between categories. The *Gender-Career IAT* (GC-IAT), for example, is aimed at understanding implicit attitudes towards traditional gender roles by measuring association strengths between the categories Career/Family and Male/Female. In the present section we discuss specifically the IAT’s stimuli. A more detailed description of the entire IAT paradigm is available in Appendix A.
 
-The IAT consists of categories and exemplars – together called the stimuli. The categories are labels that refer to, for example, social groups [e.g., "Christian" vs. "Muslim", @HEIPHETZ2013] or attitudes [e.g., "Pleasant" vs. "Unpleasant", @GREENWALD1998]. An IAT contains two sets of opposing categories $N_{total} = 4$ which together the IAT's areas of interest. Each of these four categories in an IAT is represented by multiple exemplars: nouns, names, adjectives, images, and more. For participants, the objective is to sort the exemplars into the correct categories by pressing the corresponding keyboard-keys. Central to our research is the fact that both the categories and exemplars exert an effect on the IAT’s outcome measure $D_{IAT}$ [@GAST2010] and (in)appropriate stimuli selection, as we will discuss in the section below, directly affects the (direction of) the measured bias score.
+The IAT consists of categories and exemplars – together called the stimuli. The categories are labels that refer to, for example, social groups [e.g., "Christian" vs. "Muslim", @HEIPHETZ2013] or attitudes [e.g., "Pleasant" vs. "Unpleasant", @GREENWALD1998]. An IAT contains two sets of opposing categories $N_{total} = 4$ which together form the IAT's areas of interest. Each of these four categories in an IAT is represented by multiple exemplars: nouns, names, adjectives, images, and more. For participants, the objective is to sort the exemplars into the correct categories by pressing the corresponding keyboard-keys. Central to our research is the fact that both the categories and exemplars exert an effect on the IAT’s outcome measure $D_{IAT}$ [@GAST2010] and (in)appropriate stimuli selection, as we will discuss in the section below, directly affects the (direction of) the measured bias score.
 
 ## Undesirable Stimulus Effects {#undesirable-stimulus-effects}
 
@@ -66,7 +52,7 @@ Two studies exemplify the effect of cross-category associations on the direction
 
 A second example of stimulus effects due to cross-category association comes from @BLUEMKE2006. They did similar experiments where they manipulated the relationship between the target-categories (East- & West-German nouns and names), the attitude-categories (positive & negative nouns), and the participants. For example, the exemplar "Stasi" was used as a negative exemplar with a cross-category association to former East-Germany. Their experiments showed that IAT effects could be increased if the manipulations favored the in-group participants (West-Germans), whereas the IAT effects were decreased when the manipulations favored the out-group participants (East-Germans). These results suggest that the size of $D_{IAT}$ is affected not only by changes to stimuli but also by changes to the examined participants. 
 
-As the discussion above shows, stimuli selection requires careful consideration. This is because stimuli which are unfamiliar or contain cross-category associations have the potential to change the direction and size of IAT effects ($D_{IAT}$). More importantly, stimulus effects are an interaction between the stimuli characteristics and the participant characteristics. Therefore, by changing either the stimuli or the participants, stimulus effects may be introduced that did not exist before. Even simply ‘copy-pasting’ and existing and validated IAT to a new research population could be problematic. This is not to say that all previously conducted studies suffer these effects. It could however explain replication issues, contradictory results, or previously found null-results. In conclusion, stimulus (re-)validation is warranted when the stimuli or participant populations change due to the possibility of introducing stimulus unfamiliarity and cross-category associations.
+As the discussion above shows, stimuli selection requires careful consideration. This is because stimuli which are unfamiliar or contain cross-category associations have the potential to change the direction and size of IAT effects ($D_{IAT}$). More importantly, stimulus effects are an interaction between the stimuli characteristics and the participant characteristics. Therefore, by changing either the stimuli or the participants, stimulus effects may be introduced that did not exist before. Even simply ‘copy-pasting’ an existing and validated IAT to a new research population could be problematic. This is not to say that all previously conducted studies suffer these effects. It could however explain replication issues, contradictory results, or previously found null-results. In conclusion, stimulus (re-)validation is warranted when the stimuli or participant populations change due to the possibility of introducing stimulus unfamiliarity and cross-category associations.
 
 ## Stimulus Validation
 
@@ -95,7 +81,7 @@ In the second analysis, we focus on the context dependency of stimulus validatio
 
 In the third and final analysis we aim to determine the effect of stimulus type on stimulus validity. A closer look at the stimuli used within and across IATs show substantial differences with stimuli varying from verbal to visual representations. To illustrate, the Gender-Career IAT exclusively uses proper nouns to establish the target-categories (“Salary” for the category “Career”) but uses names to establish the stereotype-categories (“Michelle” for the category “Female”). This poses the question as to whether the validation criteria proposed by @GREENWALD2021 are equally sensitive for different stimulus types. In other words, what is the effect of stimulus type on stimulus validity? This third analysis thereby explores whether the proposed validation criteria would cause specific stimulus types to become (in)validated more often than others.
 
-## Potential Implications
+## Potential Implications {#intro-potential-implications}
 
 Each of the three analyses described above has important implications for existing and subsequent IAT research. Prior to conducting these analyses, akin to hypotheses formulation, we can think of general outcome scenarios and their potential implications. We will revisit each of these scenarios in the *Discussion*.
 

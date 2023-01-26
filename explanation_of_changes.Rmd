@@ -1,0 +1,239 @@
+---
+title: "Explanation of Changes"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+# Chapters
+
+## Main.Rmd
+
+* Remove loading of `tidyverse`. All functions now have package prefixes & the processing of data now relies on a `data.table` approach.
+* Source only `.R` functions > allows for a secondary folder which contains Stage 1's `tidyverse` functions.
+* Add all study parameters to setup chunk > some parameters which are used throughout the document were loaded in separate places which made them difficult to track/change. For example, the `included_IATs` were loaded in the `Introduction` chapter.
+* Manually write out the `included_IATs` so that they can be used in loops
+* Restyle code > easier interpretation
+* Resolve typo in 'LICENSE' 
+* Add new sections (results, discussion, conclusion)
+* Add code to generate online Appendix (.html files with results per individual IAT).
+
+## Introduction.Rmd
+
+* Move `included_IATs` to the manuscript parameters in `main.Rmd`.
+* Resolve typo in 'LICENSE' 
+* Update the number of published IAT studies to January, 2023
+* Resolve in-text typos.
+
+## Methods-intro.Rmd
+
+* Resolve typo in 'LICENSE' 
+* Convert text from future-tense to past-tense
+* Add a disclaimer about the need for code changes between Stage 1 and Stage 2, with a link to the OSF page where this document - the explanation of changes - lives.
+
+## Methods-data.Rmd
+
+* Resolve typo in 'LICENSE' 
+* Convert text from future-tense to past-tense
+* Add disclaimers about the availability of data. Since June 2022 all data (raw & compressed) has been made publicly available via the OSF. Therefore some textual changes were necessary which stated that the raw data would be received upon request.
+* Download all data (including the pilot data) from the OSF. The utilized URLs are available in `datasets/OSF/osf-urls.csv`.
+* Using `git lfs` we were now able to store the pilot data as part of the `github` repository.
+* Change the utilized functions for the Stage 2 analyses. All functions used in the pilot analyses relied on a `tidyverse` approach & retaining datasets in R-memory. For the full analyses we have changed the code to a `data.table` approach while keeping datasets in local storage. The specific changes are documented below (`functions`) as well as in `vignettes/workflow-data.html`.
+* Add explanations for the two additional preprocessing steps. First, the filter of `months_of_interest` in the compressed data, then the filter of `session_id` in the raw data.
+* Include full sample descriptives as a function rather than complete chunk - allows for reuse in different chapters (e.g., `methods-analyses`).
+
+## Methods-exclusion.Rmd
+
+* Resolve typo in 'LICENSE' 
+* Convert text from future-tense to past-tense.
+* Remove code for plots that were not incorporated in the manuscript.
+* Update figure captions; fix a typo as well as update the information on mutual exclusion.
+* Update the `exclusion_plot` code so that a plot can be made more easily across all included IATs. (load data from memory rather than pass in as object).
+* Add the exclusion plots for the full sample.
+
+## Methods-analyses.Rmd
+
+* Resolve typo in 'LICENSE' 
+* Convert text from future-tense to past-tense.
+* Add the relevant code to the section where the analysis is discussed - rather than in the results section. This will make it easier for other researchers to use the code.
+* Add package prefixes into the code
+* Replace the pilot code with the cleaner / divided in functions code. Again, also using predominantly a `data.table` approach.
+
+## results-pilot.Rmd
+
+* Resolve typo in 'LICENSE' 
+* Add more text to the `results_text` function`, allowing us to plot the number of responses, age descriptives, and validity estimates for other IATs as well (used in online Appendix).
+* Remove code that has now become redundant as it has been moved to the `results_text` function.
+
+## results-full.Rmd
+
+* New chapter
+
+## appendix-IAT-results.Rmd
+
+* New code to generate a results plot and text - similar to the pilot analyses - per IAT. Output as `.html` files to allow for zoomable plots. All files are added to the online Appendix.
+
+## discussion.Rmd
+
+* New chapter
+
+# Datasets
+
+## IAT_trial_congruency
+
+* Add a `csv` which includes an overview of the (in)congruent trial pairings per IAT. **NOTE**: which pairing constitutes (in)congruent depends on interpretation. Although changing of the (in)congruent pairing changes the interpretation, it does not actually change the validity estimates which are solely based on response times and error percentages.
+
+## meta-analyses
+
+* Restructure the datasets folder by moving the meta-analyses statistics (used to determine a feasible sample size) to a separate folder.
+
+## Analyses
+
+* Results from the bootstraps - raw data - and the summarized `validity_estimates`. Stored locally to prevent having to rerun the bootstraps that can take quite a long time to run.
+
+## stimuli.csv
+
+* An overview of the included stimuli - across all 15 IATs. In addition, we manually added `stimulus_types`. For further explanation see the methods-analyses (stimulus types).
+
+## OSF-urls.csv
+
+* A file which contains the relevant OSF urls for where the data included in this study can be downloaded. See also the `vignette/workflow-data.html` for background context on how to create & use this file.
+
+# Functions
+
+* Move all functions used in the Stage 1 manuscript to a sub-folder (`Stage 1 - tidyverse`. New functions - following a `data.table` rather than `tidyverse` approach will be stored in the main- or relevant subfolders.
+
+## Data Manipulations
+
+### prepare_raw_pilot
+
+* Original function: `prepare_raw`
+* Change the pipes from tidyverse (`%>%`) to base R (`|>`)
+* Add package prefixes
+* Moved script to `functions/Stage 1`
+
+### prepare_compressed_pilot
+
+* Original function: `prepare_compressed`
+* Change the pipes from tidyverse (`%>%`) to base R (`|>`)
+* Add package prefixes
+* Moved script to `functions/Stage 1`
+
+### exclusion_raw_pilot
+
+* Original function: `exclusion_raw`
+* Change the pipes from tidyverse (`%>%`) to base R (`|>`)
+* Add package prefixes
+* Moved script to `functions/Stage 1`
+
+### exclusion_compressed_pilot
+
+* Original function: `exclusion_compressed`
+* Change the pipes from tidyverse (`%>%`) to base R (`|>`)
+* Add package prefixes
+* Moved script to `functions/Stage 1`
+
+### retrieve_data
+
+* A `Stage 2` function.
+* When we coded the pilot analyses the *Compressed* data was downloaded from Project Implicit's Open Science Framework ([https://osf.io/y9hiq/](https://osf.io/y9hiq/)). The *Raw* data, however, was received via email and stored locally. Since June, 2022 *all* data has become available via the OSF which allows for a standardized workflow. We now download the data within the R-script to reduce the number of manual operations. 
+* The corresponding download URLs are stored under `datasets/OSF_urls.xlsx`.
+
+### prepare_data_compressed
+
+* Original function: `functions/Stage 1 - tidyverse/prepare_data.R/prepare_compressed_pilot()`
+* Changed from a `tidyverse` to a `data.table` approach to be able to deal with larger datasets.
+* Remove redundant code
+* Change the pipes from tidyverse (`%>%`) to base R (`|>`)
+* Implement a filter for `months_of_interest`; in the pilot we did not explicitly account for this filter prior to determining the exclusion statistics. Now the data is filtered so that the exclusion statistics are more accurate. Data was not contaminated during Stage 1 due to the fact that we used mutual exclusion based on the raw/compressed data - where we only had raw data from the `months_of_interest`.
+* *Note*: the Race-IAT contains a duplicate column used to set `n_previous_iats`. 
+
+### prepare_data_raw
+
+* Original function: `functions/Stage 1 - tidyverse/prepare_data.R/prepare_raw_pilot()`
+* Changed from a `tidyverse` to a `data.table` approach to be able to deal with larger datasets.
+* Remove redundant code
+* Change the pipes from tidyverse (`%>%`) to base R (`|>`)
+* The *raw* data does not contain dates, which prevents filtering on `months_of_interest`. We therefore retained only those `session_ids` which were included in the *prepared compressed* data. This greatly reduces the number of trials which require preprocessing.
+* Because the raw data is rather extensive we implemented parallel processing to reduce the time required to finish preparing the data. Code is optimized for use on Mac operating systems due to the use of multicores (`mclapply`)
+
+### exclude_compressed
+
+* Original function: `functions/Stage 1 - tidyverse/apply_exclusion_criteria.R/exclusion_compressed_pilot()`
+* Changed from a `tidyverse` to a `data.table` approach to be able to deal with larger datasets.
+* Change the pipes from tidyverse (`%>%`) to base R (`|>`)
+* We now store the excluded data & the exclusion statistics in local storage rather than keeping it in R-memory.
+
+### exclude_raw
+
+* Original function: `functions/Stage 1 - tidyverse/apply_exclusion_criteria.R/exclusion_raw_pilot()`
+* Changed from a `tidyverse` to a `data.table` approach to be able to deal with larger datasets.
+* Change the pipes from tidyverse (`%>%`) to base R (`|>`)
+* We now store the excluded data & the exclusion statistics in local storage rather than keeping it in R-memory.
+* The trials from excluded participants (`compressed_cleaned`) are removed prior to implementing the exclusion criteria. Although this does not actually change which data is included - it does ensure that the number of included/excluded trials corresponds to the number of included/excluded participants more accurately. *Note*, due to this change the exclusion criterion *% Errors%* no longer excludes any trials.
+
+
+## General
+
+### get_full_sample_stats
+
+* A `Stage 2` function to get the full sample in-/exclusion statistics across all IATs. This code was previously used in-manuscript. However, as we now reuse these statistics in multiple parts of the manuscript, a quick function cleans up the code.
+
+## get_all_validity_estimates
+
+* A `Stage 2` function. Quickly get all the relevant validity estimates from `datasets/Analyses`. For use in `methods-analyses` and `results-full`.
+
+## Plots
+
+## PLOT_exclusion_criteria
+
+* A `Stage 2` function - which is an adaption of the in-manuscript code used to create the pilot exclusion plots.
+* The exclusion statistics are loaded from local storage rather than from R-memory.
+* Combining the compressed- and raw- plot into a single figure is now a function rather than in-manuscript code.
+
+## PLOT_context_dependency
+
+* A `Stage 2` function
+
+## PLOT_distribution
+
+* A `Stage 2` function
+
+## PLOT_fixed_effects
+
+* A `Stage 2` function
+
+## PLOT_iat_results
+
+* Rename `results_plot`
+* Add combining the three different plots to a new function. This used to be done separately in a code chunk of the `results-pilot.Rmd` chapter.
+
+## Analyses
+
+### bootstrapped_parameters
+
+* Original function: `functions/Stage 1 - tidyverse/bootstrapped_parameters`
+* Changed from a `tidyverse` to a `data.table` approach to be able to deal with larger datasets.
+* Change the pipes from tidyverse (`%>%`) to base R (`|>`)
+* We now store the excluded data & the exclusion statistics in local storage rather than keeping it in R-memory.
+* We now download and filter the relevant data (block 1/2) inside the function.
+* We no longer need to work with lists of participant data, but create the sample dataset with `lapply` and `data.table::rbindlist()`.
+* NOTE: code is optimized for use on Mac operating systems due to the use of multicores (`mclapply`).
+* Check whether the bootstrapped data already exists in local memory.
+
+### validity_estimates
+
+* Change from a `tidyverse` to a `data.table` approach
+* Access bootstrap data from function rather than requiring it as input
+* Add `block_name` (i.e., category) information
+
+
+
+# Other
+
+## Git LFS
+
+* Initialize `git lfs` to allow storage of large files in the git repository. This was necessary to store the raw pilot data.
+
+## `.gitignore`
+
+* Ignore datasets/OSF > can be downloaded again via the OSF and the preprocessing/exclusion can be repeated.
