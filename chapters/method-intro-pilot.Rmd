@@ -1,0 +1,29 @@
+---
+editor_options: 
+  chunk_output_type: console
+---
+<!--
+################################################################################
+################################################################################
+### LICENSE:                                                                 ###
+### This code is available under a CC BY-NC-SA 4.0 license                   ###
+### https://creativecommons.org/licenses/by-nc-sa/4.0/                       ###
+###                                                                          ###
+### BY  – Credit must be given to the creator                                ###
+### NC  – Only noncommercial uses of the work are permitted                  ###
+### SA  – Adaptations must be shared under the same terms                    ###
+################################################################################
+################################################################################
+-->
+
+<!-- OSF guidelines:
+"Full description of proposed sample characteristics, including criteria for data inclusion and exclusion (e.g. outlier extraction). Procedures for objectively defining exclusion criteria due to technical errors or for any other reasons must be specified, including details of how and under what conditions data would be replaced." -->
+
+We prepared our manuscript with `RMarkdown` in `r my_citations$r` which had several benefits. First, we reduced research degrees of freedom [@WICHERTS2016] by formalizing data preprocessing and exclusion (section \@ref(methods-exclusion)), the analyses (section \@ref(methods-analyses-pilot)), and to some extent the results (section \@ref(results-pilot)). We conducted pilot analyses which we used to optimize all code.
+
+A second benefit to preparing and publishing our analyses in `R` is fostering Open Science. Researchers can easily replicate the analyses on new data sets, use different (model) parameters, and expand with additional analyses or visualizations. All scripts are available via the Open Science Framework (OSF; https://osf.io/dw23y/?view_only=25b62f307a1349e7883549b473091483) which is connected to a Github repository (*removed for review purposes*). Please see the *workflow* vignette for a practical summary. The full research plan was approved by the Ethics Review Board at the *name removed for review purposes* [^ethics].
+
+[^ethics]: The Ethics Review Board of *name removed for review purposes* approved the research plan on 19th of March 2021 (ref: *removed for review purposes*).
+
+<!-- include the used packages as a footnote -->
+`r my_citations$pkgs`

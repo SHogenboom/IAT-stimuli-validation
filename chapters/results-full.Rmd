@@ -90,9 +90,9 @@ context_dependency <-
                 "highest_TOTAL" = IAT[which.max(Perc_validity_TOTAL)])
 ```
 
-Figure \@ref(fig:context-dependency) shows that stimulus validity varies between IATs. This is evident from the between-IAT variation displayed as 95% Confidence Intervals of the Mean. Only some items demonstrate context independence: the 95% CIs are extremely small. This context independence manifests on the extremes of the `percentage_valid` scales. Stimuli are either consistently invalid or consistently valid. 
+Figure \@ref(fig:context-dependency) shows that stimulus validity varies between IATs. This is evident from the between-IAT variation displayed as 95% Confidence Intervals of the Mean. Only some items demonstrate context independence: the 95% CIs are extremely small. This context independence manifests on the extremes of the `percentage_valid` scales (e.g., "Smiling", "Terrific"). Stimuli are either consistently invalid or consistently valid. 
 
-Contextual differences are however evident when stimulus validity could not be reliably estimated. Each stimulus in the unreliable region displays large between-IAT variability. Within those stimuli it is evident that some IATs (points) score considerably lower/higher than the other IATs on the percentage of samples in which the stimulus was valid. The under-performing IAT is generally speaking the Race-IAT when the `RT` criterion is concerned, but the Arab-IAT for the `ERROR` criterion. The over-performing IAT with respect to `RT` is most often the President-IAT, but with the `ERROR` criterion both the Race- and Transgender-IAT outperform compared to the other IATs.
+Contextual differences are however evident when stimulus validity could not be reliably estimated. Each stimulus in the unreliable region displays large between-IAT variability (e.g., "Tragic"). Within those stimuli it is evident that some IATs (points) score considerably lower/higher than the other IATs on the percentage of samples in which the stimulus was valid. The under-performing IAT is generally speaking the Race-IAT when the `RT` criterion is concerned, but the Arab-IAT for the `ERROR` criterion. The over-performing IAT with respect to `RT` is most often the President-IAT, but with the `ERROR` criterion both the Race- and Transgender-IAT outperform compared to the other IATs.
 
 ### Stimulus Types
 

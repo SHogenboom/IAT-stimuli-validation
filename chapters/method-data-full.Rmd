@@ -1,0 +1,63 @@
+---
+editor_options: 
+  chunk_output_type: console
+---
+<!--
+###############################################################################
+###############################################################################
+### LICENSE:                                                                ###
+### This code is available under a CC BY-NC-SA 4.0 license                  ###
+### https://creativecommons.org/licenses/by-nc-sa/4.0/                      ###
+###                                                                         ###
+### BY  – Credit must be given to the creator                               ###
+### NC  – Only noncommercial uses of the work are permitted                 ###
+### SA  – Adaptations must be shared under the same terms                   ###
+###############################################################################
+###############################################################################
+-->
+
+```{r, load-data-stage-2, eval = FALSE, cache = FALSE}
+# NOTE: This code is executed BEFORE knitting the manuscript.
+# This ensures faster knitting and smaller caches - especially because the
+# ... downloaded data is rather large.
+# For this manuscript the data was downloaded, preprocessed, and excluded on
+# ... the 16th of December 2022.
+# VIGNETTE
+# See 'vignettes/workflow-data.html' for explanations, examples,
+# ... and changes compared to Stage 1. Which are also summarized in `explanation_of_changes.html`.
+
+# Keep track of which IATs have already been completed in case the loop breaks.
+processed_IATS <- c()
+
+# LOOP OVER IATs
+for (IAT in included_IATs[!included_IATs %in% processed_IATS]) {
+  # Keep track of loop progress
+  print(
+   glue::glue("------------------------- \n
+                   IAT: {IAT} \n")
+ )
+  
+  # The returned nrow values are not used in this code
+  # But can be useful when exploring single IATs at the time (e.g., the pilot analyses.)
+  tmp <-
+  download_prep_exclude_data(IAT_name = IAT,
+                             year_of_interest,
+                             months_of_interest)
+  
+  # Update which IATs have been preprocessed
+  processed_IATS <- c(processed_IATS, IAT)
+} # END IAT LOOP
+```
+
+We utilized the data from `r length(included_IATs)` IATs: the `r glue::glue("{glue::glue_collapse(included_IATs, sep = '-IAT, ', last = '-IAT, and ')}-IAT")`. We specifically used the data from November 2020 which were downloaded directly from the relevant OSF repositories (see `datasets/OSF-urls.xlsx`).
+
+After downloading the data we preprocessed the *compressed* data by (1) filtering the data for the `months_of_interest` (`r lubridate::month(months_of_interest, label = TRUE)`), (2) recoding session status to indicate completion, (3) computing the participants' age at the time of testing, and (4) removing all unnecessary columns (e.g., explicit attitudes). Note, that the first preprocessing step - filtering for `months_of_interest` - was not explicitly preregistered. We added this filter during Stage 2 to reduce the amount of time spent preprocessing the data. A requirement which became critical only *after* trying to process the data of the more popular IATs. For example, the Race-IAT contains 2.27 GB of data for 2020, whereas the Gender-Career IAT contains only 267 MB. Although an explicit filter was not part of the preregistered analysis code, we did in fact indirectly filter for `months_of_interest`. As we only received raw data from November/December 2019, excluding vice versa meant that we excluded any participants from which we did not have raw data. Explicitly filtering for `months_of_interest` therefore only reduces the amount of data being preprocessed, but not the actual data used for the validation analyses.
+
+Next, we preprocessed the *raw* data by (1) retaining only the data from `session_ids` included in the preprocessed compressed data, (2) cleaning block- and trial names, (3) determining whether each trial was (in)congruently paired, and (4) filtering out data that accidentally belonged to other IATs. The first preprocessing step - filtering for `session_ids` - was not preregistered but was added in Stage 2 to reduce preprocessing time. The need for an additional preprocessing step again arose from large datasets. We therefore opted to preprocess only the raw data of participants which completed the IAT during the `months_of_interest`. Critically, the raw data, unlike the compressed data, does not contain information on when the data was collected (i.e., a date). Therefore, filtering by `session_id` of the compressed data served as a proxy for applying a `months_of_interest` filter on the raw data.
+
+```{r get_full_sample_descriptives}
+stats <-
+  get_full_sample_descriptives(year_of_interest)
+```
+
+After these preparations and applying the exclusion criteria (see section \@ref(methods-exclusion-raw)), the `r stats$max_IAT`-IAT had the most eligible participants (N = `r stats$max_pp_per_IAT`) and the `r stats$min_IAT`-IAT the least (N = `r stats$min_pp_per_IAT`; $Mean$ = `r stats$mean_pp_per_IAT`; $SD$ = `r stats$sd_pp_per_IAT`). 

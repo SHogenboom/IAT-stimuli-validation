@@ -43,16 +43,16 @@ affiliation:
   - id            : "2"
     institution   : "Department of Experimental Psychology, Utrecht University, The Netherlands"
   - id            : "3"
-    institution   : "Faculty of Psychology, Methodology & Statistics, Open Universiteit Nederland, The Netherlands"
+    institution   : "Faculty of Psychology, Theory, Methods, & Statistics, Open Universiteit Nederland, The Netherlands"
 
 authornote: |
-  This publication is part of the project "The biased reality of online media - Using stereotypes to make media manipulation visible" (with project number 406.DI.19.059) of the research programme Open Competition Digitalisation-SSH which is financed by the Dutch Research Council (NWO). We further want to acknowledge that this research would not be possible without the research efforts and open data policies of Project Implicit ([https://www.projectimplicit.net/](https://www.projectimplicit.net/)).
+  This publication is part of the project "The biased reality of online media - Using stereotypes to make media manipulation visible" (with project number 406.DI.19.059) of the research program Open Competition Digitalisation-SSH which is financed by the Dutch Research Council (NWO). We further want to acknowledge that this research would not be possible without the research efforts and open data policies of Project Implicit ([https://www.projectimplicit.net/](https://www.projectimplicit.net/)).
 
 abstract: |
-  The Implicit Association Test [IAT, @GREENWALD1998] is a popular instrument for measuring attitudes and (stereotypical) biases. @GREENWALD2021 proposed a concrete method for validating IAT stimuli: appropriate stimuli should be familiar and easy to classify – translating to rapid (response times < 800 ms) and accurate (error < 10%) participant responses. We conducted three analyses to explore the theoretical and practical utility of these proposed validation criteria. We first applied the proposed validation criteria to the data of 15 IATs that were available via Project Implicit. A bootstrap approach with 10,000 ‘experiments’ of 100 participants showed that 5.85 % of stimuli were reliably valid: we are more than 95% confident that a stimulus will also be valid in a new sample of 18-25 year old US participants. Most stimuli (78.44%) could not be reliably validated, indicating a less than 5% certainty in the outcome of stimulus (in)validity for a new sample of participants. We then explored how stimulus validity differs across IATs. Results show that only some stimuli are consistently (in)valid. Most stimuli show between-IAT variances which indicate that stimulus validity differs across IAT contexts. In the final analysis we explored the effect of stimulus type (images; nouns; names; adjectives) on stimulus validity. Stimulus type was a significant predictor of stimulus validity. Although images attain the highest stimulus validity, raw data shows large differences within stimulus types. Together the results indicate a need for revised validation criteria. We finish with practical recommendations for stimulus selection and (post-hoc) stimulus validation.
+  The Implicit Association Test [IAT, @GREENWALD1998] is a popular instrument for measuring attitudes and (stereotypical) biases. @GREENWALD2021 proposed a concrete method for validating IAT stimuli: appropriate stimuli should be familiar and easy to classify – translating to rapid (response times < 800 ms) and accurate (error < 10%) participant responses. We conducted three analyses to explore the theoretical and practical utility of these proposed validation criteria. We first applied the proposed validation criteria to the data of 15 IATs that were available via Project Implicit. A bootstrap approach with 10,000 ‘experiments’ of 100 participants showed that 5.85 % of stimuli were reliably valid (i.e., we are more than 95% confident that a stimulus will also be valid in a new sample of 18-25 year old US participants). Most stimuli (78.44%) could not be reliably validated, indicating a less than 5% certainty in the outcome of stimulus (in)validity for a new sample of participants. We then explored how stimulus validity differs across IATs. Results show that only some stimuli are consistently (in)valid. Most stimuli show between-IAT variances which indicate that stimulus validity differs across IAT contexts. In the final analysis, we explored the effect of stimulus type (images; nouns; names; adjectives) on stimulus validity. Stimulus type was a significant predictor of stimulus validity. Although images attain the highest stimulus validity, raw data shows large differences within stimulus types. Together the results indicate a need for revised validation criteria. We finish with practical recommendations for stimulus selection and (post-hoc) stimulus validation.
   
 keywords          : "Implicit Association Test, Internal Validity"
-wordcount         : "12,962"
+wordcount         : "14,092"
 
 # Add bibtext bibliographies. Managed with Zotero
 # literature.bib; all citations in text
@@ -210,28 +210,42 @@ included_IATs <-
 ```{r child = "chapters/introduction.Rmd"}
 ```
 
-# Methods
+# Pilot
 
-```{r, child = "chapters/methods-intro.Rmd"}
+```{r, child = "chapters/method-intro-pilot.Rmd"}
 ```
 
-## Data {#methods-data}
-```{r, child = "chapters/methods-data.Rmd"}
+## Pilot Data {#methods-data-pilot}
+
+```{r, child = "chapters/method-data-pilot.Rmd"}
 ```
 
 ## Exclusion Criteria {#methods-exclusion}
 ```{r, child = "chapters/methods-exclusion.Rmd"}
 ```
 
-## Analysis Plan {#methods-analyses}
-```{r, child = "chapters/methods-analyses.Rmd"}
+## Pilot Analyses {#methods-analyses-pilot}
+```{r, child = "chapters/method-analyses-pilot.Rmd"}
 ```
 
-# Results
-
-## Pilot {#results-pilot}
+## Pilot Results {#results-pilot}
 
 ```{r, child = "chapters/results-pilot.Rmd"}
+```
+
+# Full Sample
+
+```{r, child = "chapters/method-intro-full.Rmd"}
+```
+
+## Full Sample Data {#methods-data-full}
+
+```{r, child = "chapters/method-data-full.Rmd"}
+```
+
+## Full Sample Analyses {#methods-analyses-full}
+
+```{r, child = "chapters/method-analyses-full.Rmd"}
 ```
 
 ## Full Sample Results {#results-full}
@@ -257,7 +271,7 @@ included_IATs <-
 ```{r, child = "chapters/appendix-IAT-paradigm.Rmd"}
 ```
 
-<!-- ONLINE APPENDIX -->
+<!-- ONLINE APPENDIX available via https://osf.io/dw23y/ -->
 
 ```{r, eval = FALSE}
 # NOTE: run code rather than knit. Otherwise the documents cannot be rendered.

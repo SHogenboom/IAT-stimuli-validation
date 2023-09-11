@@ -1,0 +1,245 @@
+---
+editor_options: 
+  chunk_output_type: console
+---
+<!--
+###############################################################################
+###############################################################################
+### LICENSE:                                                               ###
+### This code is available under a CC BY-NC-SA 4.0 license                 ###
+### https://creativecommons.org/licenses/by-nc-sa/4.0/                     ###
+###                                                                        ###
+### BY  – Credit must be given to the creator                              ###
+### NC  – Only noncommercial uses of the work are permitted                ###
+### SA  – Adaptations must be shared under the same terms                  ###
+###############################################################################
+###############################################################################
+-->
+
+We first computed the bootstrapped validity estimates for each of the `r length(included_IATs)` IATs (section \@ref(methods-analyses-bootstrapping)). We then explored the extent to which stimulus validity differs across IAT contexts (section \@ref(methods-analyses-context-dependency)). Finally, in the third analysis, we explored the effect of stimulus type on stimulus validity (section \@ref(methods-analyses-types-validity)).
+
+### Contextual Differences {#methods-analyses-context-dependency}
+
+```{r iat-stimuli}
+#### STIMULI ####
+# Extract stimuli which are used in all IATs
+IAT_stimuli <-
+  validity_estimates |>
+  # The stimulus is listed under trial_name
+  dplyr::group_by(trial_name) |>
+  # Determine the number of IATs an exemplar is used in
+  dplyr::summarise(
+    "N_IATs" = length(unique(IAT)),
+    "IATs" = glue::glue_collapse(IAT,
+      sep = " | "
+    )
+  ) |>
+  # PREPROCESSING FOR ANALYSIS 3
+  # Determine whether a stimulus is an image or a word
+  dplyr::mutate(
+    "stimulus_type" =
+      ifelse(
+        stringr::str_detect(
+          string = trial_name,
+          pattern = ".jpg|.png"
+        ),
+        "Image",
+        NA
+      )
+  ) |>
+  # Determine whether a verbal stimulus contains multiple words (e.g., "Gay People").
+  dplyr::mutate(
+    "n_words" =
+    # number of spaces + 1 = number of words.
+      stringr::str_count(trial_name,
+        pattern = " "
+      ) + 1
+  )
+# Store for use in text
+n_stimuli_multi_words <- sum(IAT_stimuli$n_words > 1)
+n_images <- sum(IAT_stimuli$stimulus_type == "Image",
+  na.rm = TRUE
+)
+
+#### REUSED STIMULI ####
+# Extract reused stimuli
+multi_IAT_stimuli <-
+  IAT_stimuli |>
+  # Keep only those that occur in more than 1 IAT
+  dplyr::filter(N_IATs > 1)
+
+n_different_iats <-
+  glue::glue_collapse(
+    x = unique(
+      as.character(
+        english::english(
+          multi_IAT_stimuli$N_IATs
+        )
+      )
+    ),
+    sep = "/"
+  )
+```
+
+The `r length(included_IATs)` IATs included in this study contained a total of `r nrow(IAT_stimuli)` unique stimuli, out of which `r nrow(multi_IAT_stimuli)` stimuli were used in `r n_different_iats` IATs. These stimuli allowed us to determine whether stimulus (in)validity differed across IAT contexts. Derivatives of the same stem (e.g., "Friend" and "Friendship") were included separately to prevent variations due to unknown lexical-syntactic properties. It was technically possible for images (N = `r n_images`) to be included in these analyses. However, solely based on `trial_name`s in the *Raw* data (e.g., 'abled1.jpg'), no images appeared to be reused across IATs.
+
+Contextual differences are inferred from variability in the `percentage_valid` across the `r n_different_iats` IATs in which the stimulus was used. Larger variability indicates that the percentage of `r n_samples` samples in which a stimulus was classed as valid depends on the IAT in which the stimulus was presented. We thus infer between-IAT variability from visual inspections of raw data and 95% Confidence Intervals of the Mean.
+
+```{r context-dependency-plots}
+all_context_dependency_plots(multi_IAT_stimuli,
+                             validity_estimates,
+                             stimulus_gap = 4, # plot every 4th stimulus
+                             plot_heigth = 17)
+```
+
+### Stimulus Type and Validity {#methods-analyses-types-validity}
+
+```{r, save-stimuli}
+if (!file.exists(here::here("datasets", "stimuli.csv"))) {
+  # SAVE data so that one can manually complete the stimulus_types
+  # Useful reference for common "parts of speech":
+  # https://www.grammarly.com/blog/parts-of-speech/?gclid=CjwKCAiA68ebBhB-EiwALVC-NptcyzM1e3nQzcUQFiZ2e0lAmimZEmDu8rz8vajV8kuyIOxDh5bSwhoC4kgQAvD_BwE&gclsrc=aw.ds
+  data.table::fwrite(
+    x = IAT_stimuli,
+    file = here::here("datasets", "stimuli.csv"),
+    row.names = FALSE
+  )
+} else {
+  # LOAD IAT_stimuli with stimulus_type column manually completed
+  IAT_stimuli <- data.table::fread(here::here("datasets", "stimuli.csv"))
+}
+```
+
+```{r, pos-overview}
+POS_overview <-
+  IAT_stimuli |>
+  dplyr::group_by(stimulus_type) |>
+  dplyr::summarise(
+    "N" = dplyr::n(),
+    "Examples" =
+      glue::glue(
+        # List up to 5 stimuli as examples
+        glue::glue_collapse(
+          trial_name[
+            # Select random sample of trial names
+            # With a maximum of 5 examples.
+            sample(
+              x = 1:dplyr::n(),
+              size = min(dplyr::n(), 5),
+              replace = FALSE
+            )
+          ],
+          sep = ", "
+        ),
+        ifelse(dplyr::n() > 5,
+          "...",
+          ""
+        )
+      ),
+    "MeM" = ifelse(dplyr::n() > 5,
+      "Included",
+      "Excluded"
+    )
+  ) |>
+  dplyr::arrange(desc(N))
+
+data.table::fwrite(
+  POS_overview,
+  here::here(
+    "datasets",
+    "POS_overview.csv"
+  )
+)
+
+# Add to IAT_stimuli
+IAT_stimuli <-
+  dplyr::left_join(IAT_stimuli,
+    # Keep relevant data
+    POS_overview |>
+      dplyr::select(
+        stimulus_type,
+        MeM
+      ),
+    by = "stimulus_type"
+  )
+
+# Add stimulus_type to validity_estimates (bootstrapped summarys)
+validity_estimates <-
+  dplyr::left_join(validity_estimates,
+    IAT_stimuli,
+    by = "trial_name"
+  ) |>
+  # Convert stimulus type to factor for interpretable intercept
+  dplyr::mutate(
+    "stimulus_type" =
+      factor(
+        x = stimulus_type,
+        # Ordered by N
+        levels = POS_overview$stimulus_type
+      )
+  )
+```
+
+In the final analysis we explored whether the validation criteria proposed by @GREENWALD2021 were equally sensitive for different stimulus types. We first determined which of the `r nrow(IAT_stimuli)` stimuli were 'Images' (N = `r n_images`) based on pattern recognition (`.jpg` & `.png`). We then manually assigned `stimulus_type` (`r glue::glue_collapse(POS_overview$stimulus_type, sep = ", ", last = ", and ")`) to the remaining stimuli (N = `r nrow(IAT_stimuli) - n_images`; see Table \@ref(tab:pos-overview-table)). 
+
+```{r, pos-overview-table, include=TRUE}
+# Display in text
+papaja::apa_table(POS_overview, 
+             align = c("cclc"), # center align all but the "Examples" column
+             col.names = c("Stimulus Type", "N", "Examples", "Mixed Effects Model"),
+             caption = glue::glue("Stimulus types across {nrow(IAT_stimuli)} stimuli from {length(included_IATs)} IATs. The Examples column displayes five randomly selected stimuli. The final column indicates whether the stimulus types were included as part of the Mixed Effects Models."))
+```
+
+We planned to fit a mixed-effects regression model analysis with *percentage_valid* as the dependent variable and *stimulus_type* as a fixed-effect. In addition, as stimulus types are nested within IATs we also wanted to account for both between-IAT and within-IAT effects. We wanted to account for between-IAT effects by including *IAT* as a random-effect: each *IAT* was fitted with a unique *percentage_valid* intercept. To account for the possibility that stimulus types nested within IATs exerted an effect on validity we wanted to include *stimulus_type* as a random slope: the relationship between *percentage_valid* and *stimulus_type* can differ between IATs:
+
+$$percantage\_valid \sim 1 + stimulus\_type + (1 + stimulus\_type \mid IAT)$$
+```{r, planned-mixed-effects-model, include = FALSE, eval = FALSE}
+#### FIT MODEL ####
+# Mixed-Effects Model
+# Dependent Variable: continuous; percentage_validity (RT/ERROR/TOTAL)
+# Fixed-Effect: stimulus_type
+# Random-Effect: IAT
+
+subset_validity_estimates <-
+  # EXCLUDE all stimulus_types with too few instances
+  validity_estimates |>
+  dplyr::filter(MeM == "Included")
+
+planned_model_RT <-
+  planned_mixed_effects_model(DV = "Perc_validity_RT",
+                              subset_validity_estimates)
+
+planned_model_ERROR <-
+  planned_mixed_effects_model(DV = "Perc_validity_ERROR",
+                              subset_validity_estimates)
+
+planned_model_TOTAL <-
+  planned_mixed_effects_model(DV = "Perc_validity_TOTAL",
+                              subset_validity_estimates)
+```
+
+We fitted the mixed-effects model with the `lme4` [@R-lme4] and `lmerTest` [@R-lmerTest] packages with a BOBYQA optimizer [@POWELL2009] and a maximum of 200,000 iterations [@MILLER2018]. Unfortunately, the model did not converge due to issues with (near) singularity. We simplified the model by removing the random-effects of *stimulus_type*, because each IAT only contains one or two stimulus types. Removing the random-effects therefore offers the greatest chances of successfully fitting a mixed-effects model, while still accounting for the fact that stimulus validity may differ across IATs.
+
+We thus fitted the following model for the *percentage_valid* for the response time (RT), error rate (ERROR), and overall (TOTAL) validity criteria:
+
+$$percentage\_valid \sim 1 + stimulus\_type + (1 \mid IAT)$$
+
+```{r, mixed-effects-models}
+# NOTE: stimulus_types with N < 5 are excluded from analyses
+subset_validity_estimates <-
+  # EXCLUDE all stimulus_types with too few instances
+  validity_estimates |>
+  dplyr::filter(MeM == "Included")
+
+# RUN MODELS
+mixed_effects_RT <-
+  mixed_effects_model(DV = "RT",
+                      subset_validity_estimates)
+mixed_effects_ERROR <-
+  mixed_effects_model(DV = "ERROR",
+                      subset_validity_estimates)
+# To save space - this model was not included in the manuscript's result section
+mixed_effects_TOTAL <-
+  mixed_effects_model(DV = "TOTAL",
+                      subset_validity_estimates)
+```

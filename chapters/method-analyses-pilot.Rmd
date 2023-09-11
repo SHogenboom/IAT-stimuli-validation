@@ -1,0 +1,177 @@
+---
+editor_options: 
+  chunk_output_type: console
+---
+<!--
+###############################################################################
+###############################################################################
+### LICENSE:                                                                ###
+### This code is available under a CC BY-NC-SA 4.0 license                  ###
+### https://creativecommons.org/licenses/by-nc-sa/4.0/                      ###
+###                                                                         ###
+### BY  – Credit must be given to the creator                               ###
+### NC  – Only noncommercial uses of the work are permitted                 ###
+### SA  – Adaptations must be shared under the same terms                   ###
+###############################################################################
+###############################################################################
+-->
+
+<!-- OSF Guidelines:
+"Proposed analysis pipeline, including all preprocessing steps, and a precise description of all planned analyses, including appropriate correction for multiple comparisons. Any covariates or regressors must be stated. Where analysis decisions are contingent on the outcome of prior analyses, these contingencies must be specified and adhered to. Only pre-planned analyses can be reported in the main Results section of Stage 2 submissions. However, unplanned exploratory analyses will be admissible in a separate section of the Results (see below)."-->
+
+We determined stimulus validity by applying the validation criteria (section \@ref(methods-analyses-criteria)) to the response data of `r n_samples` samples of `r n_subjects_per_sample` participants (sections \@ref(methods-analyses-samplesize) and \@ref(methods-analyses-bootstrapping)). These re-samples, also known as *m* out of *n* bootstraps, together illustrated how reliably one can infer stimulus validity from a random sample of `r n_subjects_per_sample` participants (section \@ref(methods-analyses-reliability). The bootstrap procedure and results visualization (section \@ref(results-pilot)) were formalized for the pilot analyses of the Gender-Career IAT (November-December, 2019).
+
+### Validation Criteria {#methods-analyses-criteria}
+
+We implemented the validation criteria proposed by @GREENWALD2021:
+
+> A judgment as to whether specific exemplars are easy enough to classify can be based on examination of data obtained from pilot subjects. The useful data will come from Blocks 1 and 2 of the standard procedure (see Appendix A). Pilot subjects should be able to categorize all stimuli in these two blocks rapidly (average latency in the range of 600–800 ms for most young adult subjects) and with low error rates (less than 10%). [@GREENWALD2021, section 1-A8, p. 7]
+
+According to @GREENWALD2021 stimulus validity is thus inferred from two parameters computed from the responses of a (pilot) sample of participants. First, within a sample of participants the average response time should be faster than 800 milliseconds. Second, those participants should categorize the stimulus incorrectly in less than 10% of the trials. These criteria - independent of the sample size - thus result in a dichotomous decision (yes/no) of stimulus validity: a stimulus is deemed valid if *both* the average response time and error rates are below the specified thresholds.
+
+### Sample Size {#methods-analyses-samplesize}
+
+```{r, samples-meta-analyses}
+# See datasets/Appendix_Greenwald_2008.xlsx for table with notes
+n_samples_greenwald <-
+  readr::read_csv2(
+    file = here::here(
+      "datasets",
+      "meta-analyses",
+      "Appendix_Greenwald_2008.csv"
+    ),
+    show_col_types = FALSE
+  )
+
+# round to 0 because half participants not possible
+mean_greenwald <- round(mean(n_samples_greenwald$N), 0)
+sd_greenwald <- round(sd(n_samples_greenwald$N), 2)
+min_greenwald <- round(min(n_samples_greenwald$N), 0)
+max_greenwald <- round(max(n_samples_greenwald$N), 0)
+
+# @Babchishin2013
+# Table 1 extracted to csv for computations
+n_samples_B <-
+  readr::read_csv2(file = here::here(
+    "datasets",
+    "meta-analyses",
+    "Table1_Babchishin_2013.csv"
+  )) |>
+  # Compute total N per study
+  dplyr::group_by(Study) |>
+  dplyr::summarize("N" = sum(c(N_SOC, N_Non_SOC),
+    na.rm = TRUE
+  ))
+
+mean_B <- round(mean(n_samples_B$N), 0)
+sd_B <- round(sd(n_samples_B$N), 2)
+min_B <- round(min(n_samples_B$N), 0)
+max_B <- round(max(n_samples_B$N), 0)
+
+# @Oswald2013
+n_samples_Oswald <-
+  readr::read_csv2(
+    file = here::here(
+      "datasets",
+      "meta-analyses",
+      "Oswaldetal_IATCriterionMeta-analysis_DataFile_Final.csv"
+    ),
+    show_col_types = FALSE
+  ) |>
+  # Compute the unique number of participants per study, taking into account
+  # that the same sample can be mentioned multiple times
+  dplyr::group_by(Citation, `Sample Identifier`) |>
+  dplyr::summarize("N" = unique(N))
+
+mean_O <- round(mean(n_samples_Oswald$N), 0)
+sd_O <- round(sd(n_samples_Oswald$N), 2)
+min_O <- round(min(n_samples_Oswald$N), 0)
+max_O <- round(max(n_samples_Oswald$N), 0)
+```
+
+@GREENWALD2021 proposed that the validity of exemplars (i.e., stimuli) may be derived from "[...] on examination of data obtained from pilot subjects" while at the same time they stated: "Subjects for pilot testing should come from the intended research subject population" (p. 7). The latter is per definition the case in post-hoc analyses of experimental data.
+
+Validating stimuli from experimental data ensures that the validity is always inferred from the research population of interest. This is especially relevant when we consider that (un)familiarity of stimuli and cross-category associations - as discussed in section \@ref(undesirable-stimulus-effects) - are likely to differ among populations. @GARIMELLA2017, for example, showed that free-associations differed depending on gender (Male/Female) and location (USA/India). The cue "bath" was, for example, associated with "water" for Males irrespective of their location, but with "bubbles" for US Females and "soap" for Indian Females. Validation of the stimuli from experimental data may thus provide researchers with evidence of unfamiliarity or cross-category associations that are specific to their research population. 
+
+To determine a feasible experimental sample size, we looked at the sample sizes of studies included in some of the published meta-analyses. @GREENWALD2009 included `r nrow(n_samples_greenwald)` independent samples with an average of `r mean_greenwald` participants ($SD$ = `r sd_greenwald`, $Min$ = `r min_greenwald`, $Max$ = `r max_greenwald`). @BABCHISHIN2013 included `r nrow(n_samples_B)` studies with an average of `r mean_B` participants ($SD$ = `r sd_B`, $Min$ = `r min_B`, $Max$ = `r max_B`). Finally, @OSWALD2013 included `r nrow(n_samples_Oswald)` independent samples with an average of `r mean_O` participants ($SD$ = `r sd_O`, $Min$ = `r min_O`, $Max$ = `r max_O`). To err on the side of caution, the following analyses relied on a sample size that is somewhat higher than the averages of the reported meta-analyses: `r n_subjects_per_sample` participants. In doing so we increased the chances of finding true effects within a sample (i.e., power) while staying within reach of what is feasible for (future) experimental studies. 
+
+### Bootstrapping {#methods-analyses-bootstrapping}
+
+Whereas `r n_subjects_per_sample` participants is a feasible sample for experimental studies, the data provided by Project Implicit is much more extensive (e.g., $N_{pilot}$ = `r pilot$nrow_compressed`). The large number of participants provided the opportunity to simulate the results of conducting `r n_samples` 'experiments' (i.e., samples) per IAT with a sample size of `r n_subjects_per_sample` participants each. In other words, we conducted `r n_samples` *m* out of *n* bootstraps [@BICKEL2012] where *m* is the number of sampled participants (`r n_subjects_per_sample`) and *n* is the number of available participants. Note that the total number of available participants (*n*) differed across IATs from `r stats$min_IAT` to `r stats$max_IAT`.
+
+For each sample of `r n_subjects_per_sample` participants we determined the average response time and error rate per stimulus; classifying stimuli as valid if the average response time was less than 800 milliseconds and the error rate was less than 10%. In total, we thus had `r n_samples` classifications of validity per stimulus per IAT. The percentage of `r n_samples` samples in which a stimulus was classed as valid is denoted as the `percentage_valid`. 
+
+```{r, pilot-bootstraps, eval = FALSE, cache = FALSE}
+# Create output folder
+dir.create(here::here("datasets",
+                      "Analyses"))
+# NOTE: bootstraps are executed PRIOR to knitting the main manuscript. This prevents extremely long knitting times (even with cache=TRUE).
+set.seed(18)
+
+#### BOOTSTRAPS ####
+# see functions/bootstrapped_parameters.R
+# NOTE: depending on the n_samples this can take a fairly long time to run!
+# With 10,000 samples on a Macbook with multicores it takes ± 15 minutes
+bootstrapped_parameters(
+  IAT_name = "Gender-Career",
+  year_of_interest = 2019,
+  n_samples,
+  n_subjects_per_sample
+)
+
+#### EXEMPLAR VALIDITY ####
+# Reliability of the validity estimates is determined from the percentage of
+# ... samples that has reached the sample conclusions
+# see functions/validity_estimates.R
+
+exemplar_validity_estimates(
+  IAT_name = "Gender-Career",
+  year_of_interest = 2019,
+  perc_limit = 95
+)
+```
+
+```{r full-sample-bootstraps, eval = FALSE, cache = FALSE}
+# NOTE: bootstraps are executed PRIOR to knitting the main manuscript. This prevents extremely long knitting times (even with cache=TRUE).
+
+for (IAT in included_IATs) {
+  set.seed(18)
+  # Bootstraps
+  # NOTE: using 4 cores on a macbook air it takes about 15 minutes
+  # ... per IAT to run all the bootstrap simulations
+  # ... with n_samples = 10,000.
+  print("----------------\n")
+  print(glue::glue("Bootstrapping: {IAT}"))
+  starttime <- Sys.time()
+  bootstrapped_parameters(
+    IAT_name = IAT,
+    year_of_interest,
+    n_samples,
+    n_subjects_per_sample
+  )
+  print(glue::glue("Elapsed time: {Sys.time()-starttime}"))
+
+  # Validity Estimates
+  print("----------------\n")
+  print(glue::glue("Validity Estimates: {IAT}"))
+  exemplar_validity_estimates(
+    IAT_name = IAT,
+    year_of_interest,
+    perc_limit = 95
+  )
+}
+
+# beepr::beep(sound = "complete")
+```
+
+### Reliability {#methods-analyses-reliability}
+
+The `percentage_valid` indicates how reliably one can infer stimulus (in)validity from a sample of `r n_subjects_per_sample` participants. We defined stimuli as *reliably valid* if the stimulus was valid in 95% or more of the `r n_samples` samples. Similarly, a stimulus was classed as *reliably invalid* if the stimulus was valid in 5% or less of the samples. If stimuli were classed as valid in 6% - 94% of the samples, we classed them as *unreliable* to indicate that we are less than 5% certain that a new sample of `r n_subjects_per_sample` participants would yield the same (in)validity judgment. 
+
+We determined whether stimuli were reliably valid for the response time and error rate criteria separately. This provided a better insight into which of the two criteria has the biggest impact on judgments of stimulus validity. However, @GREENWALD2021 clearly describe that valid stimuli are rapidly (response time) *and* accurately (error rate) categorized. We thus also computed a final validity judgment where a stimulus is *valid* if both the response time and error rate were reliably valid but *invalid* if either of the criteria was reliably invalid. Any combination of valid-unreliable or unreliable-unreliable resulted in a final judgment of *unreliable* as we could not be sure about the validity of both criteria.
+
+```{r, validity-estimates}
+# Combine all validity estimates into a single tibble
+validity_estimates <-
+  get_all_validity_estimates(year_of_interest)
+```

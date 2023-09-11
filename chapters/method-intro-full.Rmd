@@ -1,0 +1,22 @@
+---
+editor_options: 
+  chunk_output_type: console
+---
+<!--
+################################################################################
+################################################################################
+### LICENSE:                                                                 ###
+### This code is available under a CC BY-NC-SA 4.0 license                   ###
+### https://creativecommons.org/licenses/by-nc-sa/4.0/                       ###
+###                                                                          ###
+### BY  – Credit must be given to the creator                                ###
+### NC  – Only noncommercial uses of the work are permitted                  ###
+### SA  – Adaptations must be shared under the same terms                    ###
+################################################################################
+################################################################################
+-->
+
+The full analyses extent the pilot in two aspects. First, we applied the pilot analyses to the full data set of `r length(included_IATs)` IATs (November, 2020). The bootstrapped validity estimates were used for two additional - preregistered - analyses. We explored the extent to which stimulus validity differs across IAT contexts (section \@ref(methods-analyses-context-dependency)). Then we explored the effect of stimulus type on stimulus validity (section \@ref(methods-analyses-types-validity)). For these two analyses only the analysis plans were preregistered.
+
+The pilot code was not capable of (1) downloading data directly from the Open Science Framework, (2) dealing with larger datasets, and (3) visualizing the final results in a comprehensive manner. We therefore updated the code while keeping track of all changes with `git` version control. The changes were also documented in an [explanation of changes](https://osf.io/dw23y/?view_only=25b62f307a1349e7883549b473091483), allowing anyone to track and verify (the need for) the changes we made between Stage 1 (pilot) and Stage 2 (full sample).
+

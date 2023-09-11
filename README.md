@@ -1,4 +1,4 @@
-Hogenboom, S.A.M., Schulz, K., van der Maanen, L. (n.d.) Implicit Association Tests: Stimulus Validation from Participant Responses. *The British Journal for Social Psychology*
+Hogenboom, S.A.M., Schulz, K., van der Maanen, L. (2023) Implicit Association Tests: Stimulus Validation from Participant Responses. *The British Journal for Social Psychology*
 
 # Authors
 
@@ -24,4 +24,6 @@ SA  – Adaptations must be shared under the same terms
 # How to Use
 
 1. To re-create the full report render `main.Rmd`
-1. To run the analyses on your own dataset see `TEMPLATE_analyses.R`
+1. To run the analyses on your own data see `vignettes/workflow-data`
+
+See also the accompanying project on the [Open Science Framework](https://osf.io/dw23y/)

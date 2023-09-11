@@ -1,0 +1,760 @@
+8e29daf 2023-08-24 Cleaning Git History
+explanation_of_changes.Rmd
+
+e4f043c 2023-08-24 Merge pull request #2 from bias-barometer/stage-2-revision
+6e09752 2023-08-24 Cleaning Git History
+cleaning/files-to-delete.txt
+cleaning/pre-cleaning-analysis/README
+cleaning/pre-cleaning-analysis/blob-shas-and-paths.txt
+cleaning/pre-cleaning-analysis/directories-all-sizes.txt
+cleaning/pre-cleaning-analysis/directories-deleted-sizes.txt
+cleaning/pre-cleaning-analysis/extensions-all-sizes.txt
+cleaning/pre-cleaning-analysis/extensions-deleted-sizes.txt
+cleaning/pre-cleaning-analysis/path-all-sizes.txt
+cleaning/pre-cleaning-analysis/path-deleted-sizes.txt
+cleaning/pre-cleaning-analysis/renames.txt
+explanation_of_changes.Rmd
+
+ceef838 2023-01-26 Merge pull request #1 from bias-barometer/Stage-2
+4483eca 2023-01-26 Finalize
+explanation_of_changes.Rmd
+
+45d5be1 2023-01-26 Fix typos and missing cross-references
+chapters/discussion.Rmd
+chapters/introduction.Rmd
+chapters/methods-analyses.Rmd
+chapters/methods-data.Rmd
+chapters/methods-exclusion.Rmd
+chapters/methods-intro.Rmd
+chapters/results-full.Rmd
+chapters/results-pilot.Rmd
+main.Rmd
+main.docx
+
+2703bf6 2023-01-26 Update vignette
+vignettes/workflow-data.html
+vignettes/workflow-data.qmd
+
+892011d 2023-01-26 Update N IAT studies
+chapters/introduction.Rmd
+main.docx
+
+5df0c25 2023-01-25 Fix missing cross-references, links, headers
+chapters/discussion.Rmd
+chapters/introduction.Rmd
+chapters/methods-analyses.Rmd
+chapters/results-full.Rmd
+main.Rmd
+
+c2e023d 2023-01-25 Fix incorrect citation key
+bibliographies/literature.bib
+
+87cc4b7 2023-01-25 Online Appendix - IAT results
+IAT_results/Age_2020.html
+IAT_results/Arab_2020.html
+IAT_results/Asian-American_2020.html
+IAT_results/Disability_2020.html
+IAT_results/Gender-Career_2020.html
+IAT_results/Gender-Science_2020.html
+IAT_results/Native-American_2020.html
+IAT_results/President_2020.html
+IAT_results/Race_2020.html
+IAT_results/Religion_2020.html
+IAT_results/Sexuality_2020.html
+IAT_results/Skin-Tone_2020.html
+IAT_results/Transgender_2020.html
+IAT_results/Weapons_2020.html
+IAT_results/Weight_2020.html
+chapters/appendix-IAT-results.Rmd
+chapters/results-full.Rmd
+main.Rmd
+
+aec495e 2023-01-25 Add Appendix A
+bibliographies/literature.bib
+chapters/appendix-IAT-paradigm.Rmd
+main.Rmd
+
+b385a8f 2023-01-24 Apply Feedback KS
+chapters/discussion.Rmd
+chapters/methods-analyses.Rmd
+chapters/results-full.Rmd
+chapters/results-pilot.Rmd
+
+e7f83b4 2023-01-24 Apply Feedback
+chapters/discussion.Rmd
+
+b764cdb 2023-01-24 Add missing section label
+chapters/introduction.Rmd
+
+304e57a 2023-01-24 Add missing reference
+bibliographies/literature.bib
+
+f807c83 2023-01-24 Stage 2: References
+bibliographies/literature.bib
+chapters/discussion.Rmd
+
+6ccc356 2023-01-24 Rephrase: contextual differences
+chapters/discussion.Rmd
+chapters/methods-analyses.Rmd
+chapters/results-full.Rmd
+chapters/results-pilot.Rmd
+
+1f1fa7b 2023-01-24 Final plots
+plots/IATs/Gender-Career_2019.png
+plots/context_dependency/context_dependency_small.png
+plots/validity_estimates/All.png
+
+bf2e511 2023-01-24 Table caption & styling
+chapters/methods-analyses.Rmd
+
+cfb209a 2023-01-23 Final Plots
+plots/IATs/Age_2020.png
+plots/IATs/Arab_2020.png
+plots/IATs/Asian-American_2020.png
+plots/IATs/Disability_2020.png
+plots/IATs/Gender-Career_2019.png
+plots/IATs/Gender-Career_2020.png
+plots/IATs/Gender-Science_2020.png
+plots/IATs/Native-American_2020.png
+plots/IATs/President_2020.png
+plots/IATs/Race_2020.png
+plots/IATs/Religion_2020.png
+plots/IATs/Sexuality_2020.png
+plots/IATs/Skin-Tone_2020.png
+plots/IATs/Transgender_2020.png
+plots/IATs/Weapons_2020.png
+plots/IATs/Weight_2020.png
+plots/context_dependency/context_dependency_ERROR.pdf
+plots/context_dependency/context_dependency_RT.pdf
+plots/context_dependency/context_dependency_TOTAL.pdf
+plots/context_dependency/context_dependency_small.png
+plots/exclusion_criteria/FULL_SAMPLE_2020.png
+plots/exclusion_criteria/Gender-Career_2019.png
+plots/fixed_effects_RT_ERROR.png
+plots/validity_estimates/All.png
+
+9dc10a3 2023-01-23 Code Consistency
+functions/data_manipulations/retrieve_data.R
+
+629c905 2023-01-23 Code style
+functions/data_manipulations/prepare_data_raw.R
+
+6b6ddfc 2023-01-23 Improve styling
+functions/create_plots/PLOT_context_dependency.R
+
+37ce7b6 2023-01-23 OSF Download URLs
+datasets/OSF-urls.csv
+
+4a9da1d 2023-01-17 Update vignette to include information on OSF urls file.
+vignettes/workflow-data.html
+vignettes/workflow-data.qmd
+
+a10ab61 2023-01-09 Draft
+chapters/discussion.Rmd
+main.Rmd
+main.docx
+
+8f5b0c8 2023-01-07 draft
+chapters/discussion.Rmd
+
+e870c6c 2023-01-05 Initial draft.
+chapters/discussion.Rmd
+
+c5666b3 2023-01-05 Update the outputted statistics. More details are needed for intext comparissons.
+functions/results_text.R
+
+0b79bb2 2023-01-05 Update results with relevant details need for the discussion.
+chapters/results-full.Rmd
+
+bea64ee 2023-01-05 Fix typo
+chapters/methods-intro.Rmd
+
+c6b43ff 2023-01-05 Fix typo
+chapters/methods-data.Rmd
+
+a19cdbc 2023-01-05 Fix typo
+chapters/methods-analyses.Rmd
+
+0701e33 2022-12-22 Results Full
+chapters/methods-analyses.Rmd
+chapters/results-full.Rmd
+functions/create_plots/PLOT_fixed_effects.R
+images/pilot-exclusion.png
+main.Rmd
+main.docx
+plots/exclusion_criteria/FULL_SAMPLE_2020.png
+plots/exclusion_criteria/Gender-Career_2019.png
+plots/fixed_effects_RT_ERROR.pdf
+plots/fixed_effects_RT_ERROR.png
+
+2e7840a 2022-12-22 Results: Stimulus Validity
+chapters/results-full.Rmd
+main.docx
+
+89781fb 2022-12-22 Convert to png
+chapters/methods-exclusion.Rmd
+
+937067d 2022-12-22 Do not return plot
+functions/create_plots/PLOT_distributions.R
+
+25cb549 2022-12-22 Update pilot results interpretation - no discussion
+chapters/results-pilot.Rmd
+
+584a8a0 2022-12-22 Convert plots to png
+plots/IATs/Gender-Career_2019.png
+plots/context_dependency/context_dependency_small.pdf
+plots/context_dependency/context_dependency_small.png
+plots/exclusion_criteria/FULL_SAMPLE_2020.pdf
+plots/exclusion_criteria/FULL_SAMPLE_2020.png
+plots/exclusion_criteria/Gender-Career_2019.pdf
+plots/exclusion_criteria/Gender-Career_2019.png
+plots/fixed_effects_RT_ERROR.pdf
+plots/validity_estimates/All.png
+
+39e9e62 2022-12-22 PLOTS: IATs with white backgrounds
+plots/IATs/Age_2020.png
+plots/IATs/Arab_2020.png
+plots/IATs/Asian-American_2020.png
+plots/IATs/Disability_2020.png
+plots/IATs/Gender-Career_2020.png
+plots/IATs/Gender-Science_2020.png
+plots/IATs/Native-American_2020.png
+plots/IATs/President_2020.png
+plots/IATs/Race_2020.png
+plots/IATs/Religion_2020.png
+plots/IATs/Sexuality_2020.png
+plots/IATs/Skin-Tone_2020.png
+plots/IATs/Transgender_2020.png
+plots/IATs/Weapons_2020.png
+plots/IATs/Weight_2020.png
+
+b2152ee 2022-12-22 fix merge issue
+f46bf01 2022-12-22 Plot white backgrounds
+functions/create_plots/PLOT_distributions.R
+functions/create_plots/PLOT_exclusion_criteria.R
+functions/create_plots/PLOT_iat_results.R
+plots/IATs/Age_2020.png
+plots/IATs/Arab_2020.png
+plots/IATs/Asian-American_2020.png
+plots/IATs/Disability_2020.png
+plots/IATs/Gender-Career_2020.png
+plots/IATs/Gender-Science_2020.png
+plots/IATs/Native-American_2020.png
+plots/IATs/President_2020.png
+plots/IATs/Race_2020.png
+plots/IATs/Religion_2020.png
+plots/IATs/Sexuality_2020.png
+plots/IATs/Skin-Tone_2020.png
+plots/IATs/Transgender_2020.png
+plots/IATs/Weapons_2020.png
+plots/IATs/Weight_2020.png
+
+c9a130a 2022-12-22 Plot white backgrounds
+functions/create_plots/PLOT_distributions.R
+functions/create_plots/PLOT_exclusion_criteria.R
+functions/create_plots/PLOT_iat_results.R
+plots/IATs/Age_2020.png
+plots/IATs/Arab_2020.png
+plots/IATs/Asian-American_2020.png
+plots/IATs/Disability_2020.png
+plots/IATs/Gender-Career_2020.png
+plots/IATs/Gender-Science_2020.png
+plots/IATs/Native-American_2020.png
+plots/IATs/President_2020.png
+plots/IATs/Race_2020.png
+plots/IATs/Religion_2020.png
+plots/IATs/Sexuality_2020.png
+plots/IATs/Skin-Tone_2020.png
+plots/IATs/Transgender_2020.png
+plots/IATs/Weapons_2020.png
+plots/IATs/Weight_2020.png
+
+fbf05a5 2022-12-22 Initialize results
+chapters/methods-analyses.Rmd
+chapters/results-full.Rmd
+chapters/results-pilot.Rmd
+
+0404498 2022-12-22 Main
+main.Rmd
+main.docx
+renv.lock
+
+1c1a1b2 2022-12-22 plots & functions
+.gitignore
+functions/analyses/bootstrapped_parameters.R
+functions/analyses/validity_estimates.R
+plots/IATs/Age_2020.png
+plots/IATs/Arab_2020.png
+plots/IATs/Asian-American_2020.png
+plots/IATs/Disability_2020.png
+plots/IATs/Gender-Career_2020.png
+plots/IATs/Gender-Science_2020.png
+plots/IATs/Native-American_2020.png
+plots/IATs/President_2020.png
+plots/IATs/Race_2020.png
+plots/IATs/Religion_2020.png
+plots/IATs/Sexuality_2020.png
+plots/IATs/Skin-Tone_2020.png
+plots/IATs/Transgender_2020.png
+plots/IATs/Weapons_2020.png
+plots/IATs/Weight_2020.png
+plots/IATs/pilot_gender_career.pdf
+plots/context_dependency/context_dependency_small.pdf
+plots/exclusion_criteria/FULL_SAMPLE_2020.pdf
+plots/exclusion_criteria/Gender-Career_2019.pdf
+plots/fixed_effects_RT_ERROR.pdf
+
+c9ce38b 2022-12-22 Change from PDF to PNG plots
+functions/create_plots/PLOT_context_dependency.R
+functions/create_plots/PLOT_distributions.R
+functions/create_plots/PLOT_exclusion_criteria.R
+
+6e79299 2022-12-22 Relocate, small optimizations
+functions/create_plots/PLOT_iat_results.R
+
+7b65822 2022-12-20 Pilot Results
+chapters/results-pilot.Rmd
+explanation_of_changes.Rmd
+functions/results_plot.R
+functions/results_text.R
+
+db98215 2022-12-20 Plots
+plots/IATs/pilot_gender_career.pdf
+plots/context_dependency/context_dependency_ERROR.pdf
+plots/context_dependency/context_dependency_RT.pdf
+plots/context_dependency/context_dependency_TOTAL.pdf
+plots/context_dependency/context_dependency_small.pdf
+plots/exclusion_criteria/FULL_SAMPLE_2020.pdf
+plots/exclusion_criteria/Gender-Career_2019.pdf
+plots/fixed_effects_RT_ERROR.pdf
+plots/pilot-results.pdf
+plots/pilot-results.png
+
+640cbba 2022-12-19 Analyses; plots & code
+chapters/methods-analyses.Rmd
+datasets/POS_overview.csv
+functions/Stage 1 - tidyverse/exclusion_plot.R
+functions/analyses/validity_estimates.R
+functions/create_plots/PLOT_context_dependency.R
+functions/create_plots/PLOT_distributions.R
+functions/create_plots/PLOT_fixed_effects.R
+functions/data_manipulations/prepare_data_raw.R
+functions/mixed_effects_model.R
+
+806a90e 2022-12-18 context dependency
+chapters/methods-analyses.Rmd
+functions/PLOT_context_dependency.R
+
+412f680 2022-12-18 Replaced by vignettes/workflow-data
+TEMPLATE_analyses.R
+
+526f657 2022-12-18 intro, methods-intro, methods-data, method-exclusion.
+explanation_of_changes.Rmd
+
+0b8ca1d 2022-12-18 Fix typos, include figures, update captions
+chapters/methods-exclusion.Rmd
+
+10e1012 2022-12-18 Update comments, texts, typos
+chapters/methods-data.Rmd
+
+f1e1d41 2022-12-18 Fix past tense
+chapters/methods-intro.Rmd
+
+e656b3a 2022-12-17 Fix styling
+chapters/methods-intro.Rmd
+
+59b99a3 2022-12-17 Update intext descriptives
+chapters/methods-exclusion.Rmd
+
+92db4f1 2022-12-17 Fix typos
+chapters/methods-data.Rmd
+
+244a27d 2022-12-17 Fix styling
+chapters/introduction.Rmd
+
+37f9060 2022-12-17 Update renv
+renv.lock
+
+c74a39d 2022-12-17 Ignore all caches/files
+.gitignore
+
+345de66 2022-12-16 restructure
+functions/analyses/bootstrapped_parameters.R
+plots/exclusion_criteria/FULL_SAMPLE_2020.pdf
+plots/exclusion_criteria/Gender-Career_2019.pdf
+
+56df065 2022-12-16 Optimized full_sample_descriptives & exclusion plots
+chapters/methods-data.Rmd
+chapters/methods-exclusion.Rmd
+functions/create_plots/PLOT_exclusion_criteria.R
+functions/exclusion_plot.R
+functions/get_full_sample_descriptives.R
+plots/exclusion_criteria/FULL_SAMPLE_2020.pdf
+plots/exclusion_criteria/Gender-Career_2019.pdf
+
+4f904f9 2022-12-16 ignore vignette files/caches
+.gitignore
+
+579a292 2022-12-16 Vignette: Data Workflow
+vignettes/workflow-data.html
+vignettes/workflow-data.qmd
+
+2a587ba 2022-12-16 Finalize Data Manipulations (download, preprocess, clean, exclude).
+chapters/methods-data.Rmd
+functions/Stage 2 - data.table/retrieve_data.R
+functions/data_manipulations/download_clean_exclude.R
+functions/data_manipulations/exclude_compressed.R
+functions/data_manipulations/exclude_raw.R
+functions/data_manipulations/prepare_data_compressed.R
+functions/data_manipulations/prepare_data_raw.R
+functions/data_manipulations/retrieve_data.R
+
+3fd5be2 2022-12-16 Restructure Datasets Folder
+datasets/pilot_stage_1/Gender-Career IAT.public.2019.sav
+datasets/pilot_stage_1/Gender-Career_IAT_public_2019_codebook.xlsx
+datasets/pilot_stage_1/Gender-Science IAT.public.2019.csv
+datasets/pilot_stage_1/RAW_iat_NovDec2019.txt
+datasets/pilot_stage_1/README.md
+
+8e5deff 2022-12-16 Preliminary Results
+presentations/presentation.pdf
+presentations/presentation.qmd
+presentations/presentation_files/figure-beamer/unnamed-chunk-2-1.pdf
+presentations/presentation_files/figure-beamer/unnamed-chunk-3-1.pdf
+presentations/presentation_files/figure-beamer/unnamed-chunk-4-1.pdf
+
+6f62eb0 2022-11-17 Add errorbar; jittered data instead of dotbar plot
+functions/raincloud_plot.R
+
+5c76f53 2022-11-17 Raincloud plot
+functions/raincloud_plot.R
+
+a907c28 2022-11-16 get_all_validity_estimates
+explanation_of_changes.Rmd
+functions/get_all_validity_estimates.R
+
+dc81f98 2022-11-16 Datasets: Stimuli
+datasets/stimuli.csv
+explanation_of_changes.Rmd
+
+5843311 2022-11-16 Bootstraps & Validity Estimates
+explanation_of_changes.Rmd
+
+959fc6f 2022-11-16 method-analyses: past-tense; package-prefixes; code of analyses/plots included.
+chapters/methods-analyses.Rmd
+explanation_of_changes.Rmd
+
+a68e589 2022-11-16 Appendix: IAT results
+chapters/appendix-IAT-results.Rmd
+explanation_of_changes.Rmd
+
+3bef817 2022-11-16 Update renv
+renv.lock
+
+7ff34de 2022-11-16 Main; prevent unfinished sections from knitting.
+main.Rmd
+main.docx
+
+cf37d54 2022-11-03 UPDATE methods-data; save cleaned raw pilot data for new bootstrapping function.
+chapters/methods-data.Rmd
+
+a55d257 2022-11-03 UPDATE validity_estimates; data.table approach, category information
+explanation_of_changes.Rmd
+functions/validity_estimates.R
+
+83ea3c7 2022-11-03 UPDATE bootstrapped_parameters; data.table approach
+explanation_of_changes.Rmd
+functions/Stage 1 - tidyverse/bootstrapped_parameters.R
+functions/bootstrapped_parameters.R
+
+0bb8390 2022-11-03 UPDATE methods-exclusion; add package prefixes
+chapters/methods-exclusion.Rmd
+
+1004722 2022-11-03 UPDATE plot_exclusion_plot; replace tidyverse pipes, add package prefixes
+functions/Stage 1 - tidyverse/exclusion_plot.R
+
+5f7b1d1 2022-11-03 UPDATE get_full_sample_stats; allow both compressed & raw statistics.
+functions/get_full_sample_stats.R
+
+dfe0b19 2022-11-03 UPDATE method-exclusion; clean text, add mention of Stage 2 plots, replace full_sample_stats code with function, adjust filepaths for plotting.
+chapters/methods-exclusion.Rmd
+explanation_of_changes.Rmd
+
+da31066 2022-11-03 UPDATE exclusion_plot; allow different filepaths
+functions/exclusion_plot.R
+
+edcd435 2022-11-03 NEW get_full_sample_stats
+explanation_of_changes.Rmd
+functions/get_full_sample_stats.R
+
+6cee7e8 2022-11-03 UPDATE methods-data; explanations of additional preprocessing steps.
+chapters/methods-data.Rmd
+explanation_of_changes.Rmd
+
+7048464 2022-11-03 UPDATE methods-intro explanation of stage 2 changes
+chapters/methods-intro.Rmd
+
+cb10510 2022-10-24 UPDATE method-data fix merge issue
+f71d622 2022-10-24 UPDATE methods-exclusion with full analyses
+chapters/methods-exclusion.Rmd
+explanation_of_changes.Rmd
+functions/Stage 1 - tidyverse/exclusion_plot.R
+functions/exclusion_plot.R
+
+09f6271 2022-10-24 UPDATE method-data, stage 2, full data with new data.table functions.
+chapters/methods-data.Rmd
+datasets/IAT_trial_congruency.csv
+explanation_of_changes.Rmd
+functions/Stage 2 - data.table/exclude_compressed.R
+functions/Stage 2 - data.table/exclude_raw.R
+functions/Stage 2 - data.table/prepare_data_compressed.R
+functions/Stage 2 - data.table/prepare_data_raw.R
+functions/Stage 2 - data.table/retrieve_data.R
+main.Rmd
+
+b64eb88 2022-10-24 UPDATE method-data, stage 2, full data with new data.table functions.
+chapters/methods-data.Rmd
+datasets/IAT_trial_congruency.csv
+explanation_of_changes.Rmd
+functions/Stage 2 - data.table/exclude_compressed.R
+functions/Stage 2 - data.table/exclude_raw.R
+functions/Stage 2 - data.table/prepare_data_compressed.R
+functions/Stage 2 - data.table/prepare_data_raw.R
+functions/Stage 2 - data.table/retrieve_data.R
+main.Rmd
+
+a33adbe 2022-10-24 IGNORE osf data
+.gitignore
+
+46f6353 2022-10-24 RESTRUCTURE functions folder
+functions/Stage 1 - tidyverse/apply_exclusion_criteria.R
+functions/Stage 1 - tidyverse/prepare_data.R
+
+8468cde 2022-10-24 UPLOAD pilot data with git lfs
+datasets/pilot/Gender-Career IAT.public.2019.sav
+datasets/pilot/Gender-Career_IAT_public_2019_codebook.xlsx
+datasets/pilot/RAW_iat_NovDec2019.txt
+
+1051dbf 2022-10-24 fix merge issues
+6d2a5fc 2022-10-24 UPDATE git lfs
+563f489 2022-10-24 RESTRUCTURE meta-analyses data
+datasets/Appendix_Greenwald_2008.csv
+datasets/Oswaldetal_IATCriterionMeta-analysis_DataFile_Final.csv
+datasets/Table1_Babchishin_2013.csv
+datasets/meta-analyses/Appendix_Greenwald_2008.csv
+datasets/meta-analyses/Appendix_Greenwald_2008.xlsx
+datasets/meta-analyses/Oswaldetal_IATCriterionMeta-analysis_DataFile_Final.csv
+datasets/meta-analyses/Oswaldetal_IATCriterionMeta-analysis_DataFile_Final.xlsx
+datasets/meta-analyses/Table1_Babchishin_2013.csv
+datasets/meta-analyses/Table1_Babchishin_2013.xlsx
+
+6bb2aca 2022-10-24 RESTRUCTURE meta-analyses data
+datasets/meta-analyses/Appendix_Greenwald_2008.csv
+datasets/meta-analyses/Appendix_Greenwald_2008.xlsx
+datasets/meta-analyses/Oswaldetal_IATCriterionMeta-analysis_DataFile_Final.csv
+datasets/meta-analyses/Oswaldetal_IATCriterionMeta-analysis_DataFile_Final.xlsx
+datasets/meta-analyses/Table1_Babchishin_2013.csv
+datasets/meta-analyses/Table1_Babchishin_2013.xlsx
+
+ef860c7 2022-10-24 UPDATE methods-data pilot
+chapters/methods-data.Rmd
+explanation_of_changes.Rmd
+functions/Stage 1/apply_exclusion_criteria.R
+functions/Stage 1/prepare_data.R
+functions/apply_exclusion_criteria.R
+functions/prepare_data.R
+renv.lock
+renv/.gitignore
+renv/activate.R
+
+8352b6f 2022-10-24 UPDATE methods-data pilot
+chapters/methods-data.Rmd
+explanation_of_changes.Rmd
+functions/Stage 1/apply_exclusion_criteria.R
+functions/Stage 1/prepare_data.R
+functions/apply_exclusion_criteria.R
+functions/prepare_data.R
+renv.lock
+renv/.gitignore
+renv/activate.R
+
+37b27ac 2022-10-22 UPDATE methods-intro
+chapters/methods-intro.Rmd
+explanation_of_changes.Rmd
+
+b2483ea 2022-10-22 UPDATE methods-intro
+chapters/methods-intro.Rmd
+explanation_of_changes.Rmd
+
+a8b14b7 2022-10-22 UPDATE introduction
+chapters/introduction.Rmd
+explanation_of_changes.Rmd
+
+5079638 2022-10-22 UPDATE introduction
+chapters/introduction.Rmd
+explanation_of_changes.Rmd
+
+2a9fdc5 2022-10-21 UPDATE main
+explanation_of_changes.Rmd
+main.Rmd
+
+30242e6 2022-10-21 UPDATE main
+explanation_of_changes.Rmd
+main.Rmd
+
+7273446 2022-10-21 Update renv
+renv.lock
+
+250a6d6 2022-10-21 Update renv
+renv.lock
+
+eb32a53 2022-10-21 Initialize git lfs
+.gitattributes
+.gitignore
+explanation_of_changes.Rmd
+
+02ee9d0 2022-10-21 Initialize git lfs
+.gitattributes
+.gitignore
+explanation_of_changes.Rmd
+
+b95655f 2022-08-10 Stage 1: Data (README)
+.gitignore
+
+e1bffdc 2022-08-10 Stage 1: Data (README)
+.gitignore
+
+8a501b0 2022-08-10 Stage 1: Accepted Manuscript (no data)
+.Rprofile
+.gitignore
+IAT-stimuli-validation.Rproj
+README.md
+TEMPLATE_analyses.R
+bibliographies/literature.bib
+bibliographies/r-references.bib
+chapters/appendix-IAT-paradigm.Rmd
+chapters/introduction.Rmd
+chapters/methods-analyses.Rmd
+chapters/methods-data.Rmd
+chapters/methods-exclusion.Rmd
+chapters/methods-intro.Rmd
+chapters/results-pilot.Rmd
+ethics/ERB_Approval_13105.pdf
+ethics/ERB_Project_13105_20210319152113.pdf
+functions/bootstrapped_parameters.R
+functions/results_plot.R
+functions/results_text.R
+images/IAT-diagram.pptx
+main.Rmd
+main.docx
+main_anonymous.docx
+plots/pilot-results.pdf
+plots/pilot-results.png
+renv.lock
+renv/.gitignore
+renv/activate.R
+renv/settings.dcf
+style_templates/apa-single-spaced.csl
+style_templates/apa6_man.docx
+
+a6a7e98 2022-08-10 Stage 1: Accepted Manuscript (no data)
+.Rprofile
+.gitignore
+IAT-stimuli-validation.Rproj
+README.md
+TEMPLATE_analyses.R
+bibliographies/literature.bib
+bibliographies/r-references.bib
+chapters/appendix-IAT-paradigm.Rmd
+chapters/introduction.Rmd
+chapters/methods-analyses.Rmd
+chapters/methods-data.Rmd
+chapters/methods-exclusion.Rmd
+chapters/methods-intro.Rmd
+chapters/results-pilot.Rmd
+ethics/ERB_Approval_13105.pdf
+ethics/ERB_Project_13105_20210319152113.pdf
+functions/bootstrapped_parameters.R
+functions/results_plot.R
+functions/results_text.R
+images/IAT-diagram.pptx
+main.Rmd
+main.docx
+main_anonymous.docx
+plots/pilot-results.pdf
+plots/pilot-results.png
+renv.lock
+renv/.gitignore
+renv/activate.R
+renv/settings.dcf
+style_templates/apa-single-spaced.csl
+style_templates/apa6_man.docx
+
+0e59bca 2021-04-22 initial commit stage 1
+README.md
+bibliographies/literature.bib
+bibliographies/r-references.bib
+chapters/introduction.Rmd
+chapters/methods-analyses.Rmd
+chapters/methods-data.Rmd
+chapters/methods-exclusion.Rmd
+chapters/methods-intro.Rmd
+chapters/results-pilot.Rmd
+datasets/Appendix_Greenwald_2008.csv
+datasets/Appendix_Greenwald_2008.xlsx
+datasets/Oswaldetal_IATCriterionMeta-analysis_DataFile_Final.csv
+datasets/Oswaldetal_IATCriterionMeta-analysis_DataFile_Final.xlsx
+datasets/Table1_Babchishin_2013.csv
+datasets/Table1_Babchishin_2013.xlsx
+functions/apply_exclusion_criteria.R
+functions/bootstrapped_parameters.R
+functions/exclusion_plot.R
+functions/prepare_data.R
+functions/results_plot.R
+functions/results_text.R
+functions/validity_estimates.R
+images/IAT-diagram.png
+main_anonymous.Rmd
+main_anonymous.docx
+plots/pilot-results.pdf
+style_templates/README.txt
+style_templates/apa-single-spaced.csl
+style_templates/apa7.docx
+
+9400b42 2021-04-22 initial commit stage 1
+README.md
+bibliographies/literature.bib
+bibliographies/r-references.bib
+chapters/introduction.Rmd
+chapters/methods-analyses.Rmd
+chapters/methods-data.Rmd
+chapters/methods-exclusion.Rmd
+chapters/methods-intro.Rmd
+chapters/results-pilot.Rmd
+datasets/Appendix_Greenwald_2008.csv
+datasets/Appendix_Greenwald_2008.xlsx
+datasets/Oswaldetal_IATCriterionMeta-analysis_DataFile_Final.csv
+datasets/Oswaldetal_IATCriterionMeta-analysis_DataFile_Final.xlsx
+datasets/Table1_Babchishin_2013.csv
+datasets/Table1_Babchishin_2013.xlsx
+functions/apply_exclusion_criteria.R
+functions/bootstrapped_parameters.R
+functions/exclusion_plot.R
+functions/prepare_data.R
+functions/results_plot.R
+functions/results_text.R
+functions/validity_estimates.R
+images/IAT-diagram.png
+main_anonymous.Rmd
+main_anonymous.docx
+plots/pilot-results.pdf
+style_templates/README.txt
+style_templates/apa-single-spaced.csl
+style_templates/apa7.docx
+
+1cb3ccf 2021-03-16 Initial commit
+README.md
+
+c6f125d 2021-03-16 Initial commit
+.gitattributes
+README.md

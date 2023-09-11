@@ -1,0 +1,51 @@
+---
+editor_options: 
+  chunk_output_type: console
+---
+<!--
+###############################################################################
+###############################################################################
+### LICENSE:                                                                ###
+### This code is available under a CC BY-NC-SA 4.0 license                  ###
+### https://creativecommons.org/licenses/by-nc-sa/4.0/                      ###
+###                                                                         ###
+### BY  – Credit must be given to the creator                               ###
+### NC  – Only noncommercial uses of the work are permitted                 ###
+### SA  – Adaptations must be shared under the same terms                   ###
+###############################################################################
+###############################################################################
+-->
+
+We used data provided by Project Implicit[^data_availability] - a large-scale data collection project which has collected IAT web responses since 2002 [@GREENWALD2003] [^website_organization2]. Visitors to the website must agree to the terms and conditions before they have access to IATs about presidential preferences, body-weight attitudes, race and more.
+
+<!-- footnote -->
+[^data_availability]: Jordan Axt, the director of Data and Methodology for Project Implicit, has confirmed on the 16th of March 2021 that (1) we did not yet have access to the requested data, and (2) will receive the data after Stage 1 acceptance. The official statement is available via the Open Science Framework (OSF; [https://osf.io/dw23y/?view_only=25b62f307a1349e7883549b473091483](https://osf.io/dw23y/?view_only=25b62f307a1349e7883549b473091483)). *Stage 2:* Upon requesting access to the full data we were notified that, since June 2022, all data is now publicly available via the Open Science Framework ([https://osf.io/y9hiq/](https://osf.io/y9hiq/)). Please note that this data was made public *after* our preregistration.
+
+<!-- footnotes to refer to the project implicit websites -->
+[^website_organization2]: Organization: [https://www.projectimplicit.net/](https://www.projectimplicit.net/); Take-a-Test:  [https://implicit.harvard.edu/implicit/takeatest.html](https://implicit.harvard.edu/implicit/takeatest.html)
+
+The data that Project Implicit provides is freely available via the Open Science Framework (OSF; [https://osf.io/y9hiq/](https://osf.io/y9hiq/)) for 16 IATs from 2002 until 2021[^n_iats]. The data comes in two forms: compressed and raw. The *compressed* data contains one row of information per participant and includes information on demographics (e.g., age, occupation), IAT results (e.g., $D_{IAT}$), and explicit attitudes (i.e., self-report questions). The compressed data have primarily been used by researchers to determine group-level biases. For example, @CHARLESWORTH2019 performed trend analyses of biases from 2007 - 2016, @DARLING-HAMMOND2020 explored the effects of the Corona virus on Asian biases from 2007 - 2020, and @RAVARY2019 found that "fat-shaming" incidents predicted spikes in the biases detected with the body-weight IAT.
+
+<!-- footnote -->
+[^n_iats]: Determined at the time of writing ($26^{th}$ of January 2022)
+
+The *raw* data contains the trial-by-trial information such as IAT parameters (e.g., presented stimulus, category pairing) and response parameters (RT and accuracy). Researchers have used raw response data to, for example, validate new IAT formats [e.g., IAT-recoding free, @ROTHERMUND2009], determine the minimal number of exemplars [@NOSEK2005], and determine the effects of random stimulus variation [@WOLSIEFER2017]. 
+
+The raw data and the compressed data can be linked via `session_id`; a unique identifier for each started IAT session. Note that we treat `session_ids` as if they indicate individual participants. It is technically possible for participants to start multiple sessions per IAT, but the size of the data makes it unlikely that a single person contributed a significant number of sessions. We further discuss the issue of repeated measurement in the exclusion criteria (section \@ref(methods-exclusion)).
+
+```{r, pilot-data}
+# See 'vignettes/workflow-data.html' for explanations and examples of each step.
+# An overview of changes (compared to Stage 1) is available in 
+# ... 'explanation_of_changes.html'
+pilot <-
+  download_prep_exclude_data(IAT_name = "Gender-Career",
+                             year_of_interest = 2019,
+                             months_of_interest = c(11, 12) # Nov/Dec
+                             )
+```
+
+For the pilot analyses we worked with data from the *Gender-Career IAT* (GC-IAT). The compressed data of the GC-IAT was freely available via Project Implicit' OSF page ([https://osf.io/abxq7/](https://osf.io/abxq7/)). We received the raw response data - which was not yet available online - from November and December 2019 via email on the 3rd of September 2020.
+
+We preprocessed the *compressed* data by computing the participants' age at the time of testing, recoding session status to indicate completion, and removing all unnecessary columns (e.g., explicit attitudes). After these preprocessing steps and applying the exclusion criteria (see section \@ref(methods-exclusion-compressed)), the compressed pilot data consisted of `r pilot$nrow_compressed` rows of data.
+
+We preprocessed the *raw* data by cleaning block- and trial names, determining whether each trial was (in)congruently paired, as well as filtering out data that accidentally belonged to other IATs. After these preparations and applying the exclusion criteria (see section \@ref(methods-exclusion-raw)), the raw pilot data consisted of `r pilot$nrow_raw` rows of data (responses/trials). 

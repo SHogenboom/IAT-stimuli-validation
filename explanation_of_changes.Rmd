@@ -98,6 +98,10 @@ output: html_document
 
 * A file which contains the relevant OSF urls for where the data included in this study can be downloaded. See also the `vignette/workflow-data.html` for background context on how to create & use this file.
 
+## pilot_stage_1
+
+* The data which are necessary to reproduce the pilot analyses are available via the [Open Science Framework](https://osf.io/dw23y/).
+
 # Functions
 
 * Move all functions used in the Stage 1 manuscript to a sub-folder (`Stage 1 - tidyverse`. New functions - following a `data.table` rather than `tidyverse` approach will be stored in the main- or relevant subfolders.
@@ -230,10 +234,77 @@ output: html_document
 
 # Other
 
-## Git LFS
+The `git`-repository associated with this project became too large. This meant that `Github` was requesting fees to keep the repository alive. Unfortunately, because all project funds end sometime, this is not a viable solution to keeping the research open access. We have thus moved the code to a repository which belongs to the primary researcher (`SHogenboom/IAT-stimuli-validation`). We made the following changes (for details see below):
 
-* Initialize `git lfs` to allow storage of large files in the git repository. This was necessary to store the raw pilot data.
+1. We cleaned the commit history. This was done by keeping only the commits/statuses of submitted manuscript versions (not the changes made in between). The original history is available under `datasets/git_history.txt`, how the history was cleaned is detailed below.
 
-## `.gitignore`
+1. We moved large files from the `git`-repository to the [Open Science Framework](https://osf.io/dw23y/). This includes the data for the pilot analyses, plots, and the individual IAT-results (`.html` overviews). All are available for download so they can easily be inspected and can be reproduced by running the code (see vignette).
 
-* Ignore datasets/OSF > can be downloaded again via the OSF and the preprocessing/exclusion can be repeated.
+**Step-by-step overview of the process:**
+1. Clone the original repository (`bias-barometer`)
+```{{terminal}}
+git clone https://github.com/bias-barometer/IAT-stimuli-validation.git
+```
+
+1. Retrieve lfs content (was previously used to reduce large files).
+```{{terminal}}
+git lfs pull
+```
+
+1. Remove lfs from the repository
+```{{terminal}}
+git lfs uninstall
+```
+
+1. Remove the lfs attribute file (`.gitattributes`)
+
+1. Get the git logs and save to `git_history.txt`. This file is used to determine which history to retain (commits). Save this file in a different folder so you can access it later on!
+```{{terminal}}
+git log --pretty=format:"%h %ad %s" --date=short --name-only > git_history.txt
+```
+
+1. Stage the changes (i.e., lfs uninstallment)
+
+1. Return to: Stage 1. For some reason, the earliest commits are duplicates. The commit we are looking for is called "Stage 1: Data (README)" with the hash (i.e., identifier) `b95655f`. The dates signal that this was the submitted version. *Please note that after Stage 1 was accepted we also preregistered the research, which includes an original copy of the repository!*
+
+```{{terminal}}
+git checkout b95655f
+```
+
+1. Copy these files **--- WITHOUT `.git` ---** to the new repository (`SHogenboom/IAT-stimuli-validation`).
+
+1. Commit Stage 1 files
+```{{terminal}}
+git add .; git commit -m "Stage 1: Introduction,Method, Pilot (Accepted Manuscript)"
+```
+
+1. Restore the commit dates to reflect the actual moment Stage 1 was submitted. The dates and timepoints were available in the original git history (see logs).
+
+```{{terminal}}
+GIT_COMMITTER_DATE="Wed 10 Aug 2022 20:20:00 CEST" git commit --amend --no-edit --date "Wed 10 Aug 2022 20:20:00 CEST"
+```
+
+1. Return to: Stage 2 (initial submit). The commit we are looking for is called "Merge pull request #1 from bias-barometer/Stage-2" with the hash `ceef838`. This is because all Stage-2 changes were made on a separate branch, which was then merged into main.
+
+```{{terminal}}
+git checkout ceef838
+```
+
+**1. Update the gitignore files to prevent re-commiting the large files!**
+* Datasets from `pilot_stage_1` have been moved to the [OSF](https://osf.io/dw23y/)
+* The results for individual IATs (plots + .html summaries) have been moved to the [OSF](https://osf.io/dw23y/)
+
+1. Commit Stage 2 files
+```{{terminal}}
+git add .; git commit -m "Stage 2: Full Analyses, Discussion"
+```
+
+1. Restore the commit dates to reflect the actual moment Stage 2 was submitted. The dates and timepoints were available in the original git history (see logs).
+```{{terminal}}
+GIT_COMMITTER_DATE="Thu 26 Jan 2023 14:27:00 CEST" git commit --amend --no-edit --date "Thu 26 Jan 2023 14:27:00 CEST"
+```
+
+1. Push changes from local to online
+```{{terminal}}
+git push --force
+```
